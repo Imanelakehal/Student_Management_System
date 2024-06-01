@@ -1,5 +1,7 @@
 Student Information Management System
+
 Overview
+
 The Student Information Management System is a web application designed to streamline various aspects of student life. It includes functionalities for course management, accommodation details, book purchases, profile updates, and data analysis. This application is tailored for student use, providing an intuitive and user-friendly interface to manage their academic and personal information efficiently.
 
 Key Pages
