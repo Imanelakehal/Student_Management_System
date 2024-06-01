@@ -30,3 +30,14 @@ The Student Information Management System is a web application designed to strea
     Seaborn: A Python visualization library based on Matplotlib that provides a high-level interface for drawing attractive and informative statistical graphics.
 - Framework
    Flask or Django: For building the web application, routing requests, and serving the HTML pages.
+
+
+- Usage
+     Login Page: Access with your credentials.
+     Registration Page: Create a new account.
+     Main Dashboard: Navigate to different functionalities.
+     Course Management: Enroll in or drop courses.
+     Accommodation Management: Update and view accommodation details.
+     Books Management: Purchase and manage course-related books.
+     Profile Management: Update personal information.
+     Data Analysis: View various reports and visualizations on student data.
