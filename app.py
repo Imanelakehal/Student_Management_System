@@ -17,7 +17,7 @@ def login():
         password = request.form['Password']
         #Authentication logic
         return redirect(url_for('dashboard'))
-    return render_template('/templates/login.html')
+    return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():

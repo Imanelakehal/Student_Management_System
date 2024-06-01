@@ -1,0 +1,59 @@
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.left {
+    left: 0;
+    background-color: #eeee;
+}
+
+.right {
+    right: 0;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top-right {
+    text-align: right;
+    padding: 20px;
+    position: absolute;
+    top: 20px;
+    right: 290px;
+}
+.centered {
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform: translate(-50% , -50%);
+    text-align: center;
+}
+.welcome {
+    font-size: 80px; /* Set font size to 80 pixels */
+    font-weight: bold; /* Make the text bold */
+    margin: 0;
+    color: #A91D3A;
+}
+
+.portal {
+    font-size: 75px; /* Set font size to 80 pixels */
+    font-weight: normal; /* Set the font weight to normal */
+    margin: -20px;
+    color: #A91D3A;
+
+    
+}
+.login {
+    font-size: 16px; /* Set the font size for the login message */
+    margin-top: 50px; /* Add some space between the portal text and the login message */
+    margin-right: 200px; /* Adjust right margin to align with other text */
+    color: #A91D3A;
+
+}
