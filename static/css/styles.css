@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+body {
+    font-family: 'Poppins', sans-serif; /* Apply the Poppins font to the body */
+}
 .split {
     height: 100%;
     width: 50%;
@@ -19,14 +23,15 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
 }
 
 .top-right {
     text-align: right;
-    padding: 20px;
+    padding: 10px;
     position: absolute;
     top: 20px;
-    right: 290px;
+    right: 250px;
 }
 .top-left {
     text-align: left; /* Align text to the right */
@@ -36,14 +41,16 @@
     padding: 20px;
 }
 .welcome {
-    font-size: 80px; /* Set font size to 80 pixels */
+    font-family: 'Poppins'; /* Apply the Poppins font */
+    font-size: 75px; /* Set font size to 80 pixels */
     font-weight: bold; /* Make the text bold */
     margin: 0;
     color: #A91D3A;
 }
 
 .portal {
-    font-size: 75px; /* Set font size to 80 pixels */
+    font-size: 68px; /* Set font size to 80 pixels */
+    font-family: 'Poppins'; /* Apply the Poppins font */
     font-weight: normal; /* Set the font weight to normal */
     margin: -20px;
     color: #A91D3A;
@@ -52,18 +59,30 @@
 }
 .login {
     font-size: 16px; /* Set the font size for the login message */
-    margin-top: 50px; /* Add some space between the portal text and the login message */
-    margin-right: 200px; /* Adjust right margin to align with other text */
+    font-family: 'Poppins'; /* Apply the Poppins font */
+    margin-top: 20px; /* Add some space between the portal text and the login message */
+    margin-right: 220px; /* Adjust right margin to align with other text */
     color: #A91D3A;
 
 }
 .title {
     font-size: 40px; /* Set font size to 60 pixels */
+    font-family: 'Poppins'; /* Apply the Poppins font */
     font-weight: bold; /* Make the text bold */
     color: #A91D3A;
 }
 
 .info {
     font-size: 16px; /* Set the font size for the info message */
+    font-family: 'Poppins'; /* Apply the Poppins font */
     color: black;
+}
+
+.curvy-shape {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2; /* Ensure it stays on top of the splits */
 }
