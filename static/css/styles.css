@@ -63,6 +63,7 @@ body {
     margin-top: 20px; /* Add some space between the portal text and the login message */
     margin-right: 220px; /* Adjust right margin to align with other text */
     color: #A91D3A;
+    font-weight: normal;
 
 }
 .title {
@@ -85,4 +86,11 @@ body {
     width: 100%;
     height: auto;
     z-index: 2; /* Ensure it stays on top of the splits */
+}
+.right-image {
+    width: 70%; /* Adjust the width to make the image larger */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 70vh; /* Ensure it doesn't exceed 80% of the viewport height */
+    margin: auto; /* Center the image vertically */
+    align-self: center; /* Center the image horizontally */
 }
