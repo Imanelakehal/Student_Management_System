@@ -14,13 +14,13 @@ The *Student Information Management System* is a web application designed to str
 - Data Analysis Page: Provides insights through various reports and visualizations on student data.
   
 **Tech Stack**
-__Backend
+*Backend*
 
 Python: The main programming language for implementing the application's logic and backend operations.
 
 SQLite: A lightweight database to store and manage all the student, course, accommodation, and book information.
 
-__Frontend
+*Frontend*
 
 HTML: For structuring the content of the web pages.
 
@@ -28,7 +28,7 @@ CSS: For styling the web pages and making them visually appealing.
 
 JavaScript: For adding interactivity and dynamic content to the web pages.
 
-__Data Analysis and Visualization
+*Data Analysis and Visualization*
 
 Pandas: A Python library used for data manipulation and analysis, particularly useful for handling tabular data.
 
@@ -36,7 +36,7 @@ Matplotlib: A plotting library for creating static, animated, and interactive vi
 
 Seaborn: A Python visualization library based on Matplotlib that provides a high-level interface for drawing attractive and informative statistical graphics.
 
-__Framework
+*Framework*
 
 Flask or Django: For building the web application, routing requests, and serving the HTML pages.
 
