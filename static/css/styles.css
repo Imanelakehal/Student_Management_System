@@ -1,7 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 body {
     font-family: 'Poppins', sans-serif; /* Apply the Poppins font to the body */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
 .split {
     height: 100%;
     width: 50%;
@@ -23,7 +27,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
 }
 
 .top-right {
@@ -33,13 +36,15 @@ body {
     top: 20px;
     right: 250px;
 }
+
 .top-left {
-    text-align: left; /* Align text to the right */
+    text-align: left;
     position: absolute;
     top: 100px;
-    left: 70px; /* Position from the right edge within the left split */
+    left: 70px;
     padding: 20px;
 }
+
 .welcome {
     font-family: 'Poppins'; /* Apply the Poppins font */
     font-size: 75px; /* Set font size to 80 pixels */
@@ -54,9 +59,8 @@ body {
     font-weight: normal; /* Set the font weight to normal */
     margin: -20px;
     color: #A91D3A;
-
-    
 }
+
 .login {
     font-size: 16px; /* Set the font size for the login message */
     font-family: 'Poppins'; /* Apply the Poppins font */
@@ -64,8 +68,8 @@ body {
     margin-right: 220px; /* Adjust right margin to align with other text */
     color: #A91D3A;
     font-weight: normal;
-
 }
+
 .title {
     font-size: 40px; /* Set font size to 60 pixels */
     font-family: 'Poppins'; /* Apply the Poppins font */
@@ -87,10 +91,160 @@ body {
     height: auto;
     z-index: 2; /* Ensure it stays on top of the splits */
 }
+
 .right-image {
     width: 70%; /* Adjust the width to make the image larger */
     height: auto; /* Maintain aspect ratio */
     max-height: 70vh; /* Ensure it doesn't exceed 80% of the viewport height */
     margin: auto; /* Center the image vertically */
     align-self: center; /* Center the image horizontally */
+}
+
+/* Form styling */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Adjust the maximum width of the form */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #A91D3A; /* Bottom border red */
+    outline: none;
+    font-size: 18px;
+    padding: 10px 0;
+    background: transparent; /* Make the background transparent */
+}
+
+input::placeholder {
+    color: #A91D3A; /* Placeholder color red */
+    opacity: 1; /* Ensure the placeholder is visible */
+}
+
+input:focus::placeholder {
+    color: transparent; /* Placeholder color when input is focused */
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.eye-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.login-button {
+    background-color: black; /* Button background color black */
+    color: white; /* Button text color white */
+    border: none;
+    padding: 15px 200px; /* Button padding */
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 30px; /* Button border radius */
+    margin-top: 50px; /* Move the button down */
+}
+
+.login-button:hover {
+    background-color: #8f1530;
+}
+
+.login-form p {
+    color: #8f1530;
+    margin-left: -220px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+    .split {
+        width: 100%;
+        position: relative;
+        height: auto;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+        position: relative;
+        height: auto;
+        padding: 20px;
+    }
+
+    .top-right,
+    .top-left {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    .welcome,
+    .portal {
+        font-size: 48px;
+        text-align: center;
+    }
+
+    .login {
+        margin-right: 0;
+        text-align: center;
+    }
+
+    .login-form {
+        max-width: 90%;
+        margin: auto;
+    }
+
+    .login-button {
+        padding: 10px 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome,
+    .portal {
+        font-size: 32px;
+    }
+
+    .login-button {
+        padding: 10px 50px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome,
+    .portal {
+        font-size: 24px;
+    }
+
+    .login-button {
+        padding: 10px 30px;
+        font-size: 14px;
+    }
+
+    .input-container {
+        margin-bottom: 15px;
+    }
+
+    .login-form p {
+        margin-left: 0;
+        text-align: center;
+    }
 }
