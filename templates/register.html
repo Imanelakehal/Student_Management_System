@@ -12,7 +12,7 @@
         <div class="top-left">
             <h1 class="R-title">Register</h1>
             <p class="info">Enter your account details</p>
-            <form class="register-form" method="POST" action="{{ url_for('register') }}">
+            <form id="register-form" class="register-form"  action="/register" method="POST">
                 <div class="input-container">
                     <input type="text" id="full-name" name="full_name" placeholder="Full Name" required>
                 </div>

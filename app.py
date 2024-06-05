@@ -35,6 +35,29 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # Process the registration form data
+        full_name = request.form['full_name']
+        student_id = request.form['student_id']
+        gender = request.form['gender']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        # Add your registration logic here
+        if password == confirm_password:
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO users (full_name, student_id, gender, password) VALUES (%s, %s, %s, %s)", (full_name, student_id, gender, hashed_password))
+            mysql.connection.commit()
+            cur.close()
+            return jsonify({'status': 'success'})
+        else:
+            return jsonify({'status': 'error', 'message': 'Passwords do not match'})
+
+    return render_template('register.html')
+
 @app.route('/dashboard')
 def dashboard():
     if 'username' in session:

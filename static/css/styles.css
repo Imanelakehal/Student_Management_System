@@ -204,9 +204,33 @@ input:focus::placeholder {
     z-index: 1; /* Ensure it's behind other content */
     pointer-events: none; /* Prevent the SVG from interfering with interactions */
 }
-#error-message {
+.error-message {
     color: red;
-    margin-top: 10px;
+}
+.register-link-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Adjust margin top as needed */
+}
+
+.register-link-container p {
+    margin: 0;
+    font-size: 16px; /* Adjust to your desired font size */
+    margin-right: 5px; /* Adjust margin right as needed */
+}
+
+.small-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 16px; /* Adjust padding for desired button size */
+    font-size: 12px; /* Adjust font size to match your design */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* Adjust border radius for desired effect */
+    text-decoration: none; /* Remove underline from the link */
+    display: inline-block; /* Ensure it behaves like a button */
+    margin-left: 200px;
 }
 
 
