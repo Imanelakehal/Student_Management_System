@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 from config import Config
@@ -24,12 +24,15 @@ def login():
         user = cur.fetchone()
         cur.close()
 
-        if user and bcrypt.check_password_hash(user[2], password):  # Assuming password is in the 2nd column
-            session['username'] = username
-            return redirect(url_for('dashboard'))
+        if user:
+            if bcrypt.check_password_hash(user[2], password):  # Assuming password is in the 2nd column
+                session['username'] = username
+                return jsonify({'status': 'success'})
+            else:
+                return jsonify({'status': 'error', 'message': 'Invalid password'})
         else:
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return jsonify({'status': 'error', 'message': 'User not found. Please register.'})
+
     return render_template('login.html')
 
 @app.route('/dashboard')

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
 body {
-    font-family: 'Poppins', sans-serif; /* Apply the Poppins font to the body */
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -35,105 +36,101 @@ body {
     position: absolute;
     top: 20px;
     right: 250px;
+    
 }
 
 .top-left {
     text-align: left;
     position: absolute;
-    top: 100px;
+    top: 5px;
     left: 70px;
     padding: 20px;
 }
 
 .welcome {
-    font-family: 'Poppins'; /* Apply the Poppins font */
-    font-size: 75px; /* Set font size to 80 pixels */
-    font-weight: bold; /* Make the text bold */
+    font-family: 'Poppins';
+    font-size: 75px;
+    font-weight: bold;
     margin: 0;
     color: #A91D3A;
 }
 
 .portal {
-    font-size: 68px; /* Set font size to 80 pixels */
-    font-family: 'Poppins'; /* Apply the Poppins font */
-    font-weight: normal; /* Set the font weight to normal */
+    font-size: 68px;
+    font-family: 'Poppins';
+    font-weight: normal;
     margin: -20px;
     color: #A91D3A;
 }
 
-.login {
-    font-size: 16px; /* Set the font size for the login message */
-    font-family: 'Poppins'; /* Apply the Poppins font */
-    margin-top: 20px; /* Add some space between the portal text and the login message */
-    margin-right: 220px; /* Adjust right margin to align with other text */
+.login, .register {
+    font-size: 16px;
+    font-family: 'Poppins';
+    margin-top: 20px;
+    margin-right: 220px;
     color: #A91D3A;
     font-weight: normal;
 }
 
-.title {
-    font-size: 40px; /* Set font size to 60 pixels */
-    font-family: 'Poppins'; /* Apply the Poppins font */
-    font-weight: bold; /* Make the text bold */
+.title, .R-title {
+    font-size: 40px;
+    font-family: 'Poppins';
+    font-weight: bold;
     color: #A91D3A;
 }
 
 .info {
-    font-size: 16px; /* Set the font size for the info message */
-    font-family: 'Poppins'; /* Apply the Poppins font */
+    font-size: 16px;
+    font-family: 'Poppins';
     color: black;
 }
 
-.curvy-shape {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 2; /* Ensure it stays on top of the splits */
-}
-
 .right-image {
-    width: 70%; /* Adjust the width to make the image larger */
-    height: auto; /* Maintain aspect ratio */
-    max-height: 70vh; /* Ensure it doesn't exceed 80% of the viewport height */
-    margin: auto; /* Center the image vertically */
-    align-self: center; /* Center the image horizontally */
+    width: 70%;
+    height: auto;
+    max-height: 70vh;
+    margin: auto;
+    align-self: center;
 }
 
 /* Form styling */
-.login-form {
+.login-form, .register-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 400px; /* Adjust the maximum width of the form */
+    max-width: 400px;
     padding: 20px;
     box-sizing: border-box;
+    position: relative; /* Add this line */
+    z-index: 3; 
 }
 
 .input-container {
     position: relative;
     width: 100%;
     margin-bottom: 20px;
+    z-index: 3; 
+
 }
 
-input {
+input, select {
     width: 100%;
     border: none;
-    border-bottom: 2px solid #A91D3A; /* Bottom border red */
+    border-bottom: 2px solid #A91D3A;
     outline: none;
     font-size: 18px;
     padding: 10px 0;
-    background: transparent; /* Make the background transparent */
+    background: transparent;
 }
 
 input::placeholder {
-    color: #A91D3A; /* Placeholder color red */
-    opacity: 1; /* Ensure the placeholder is visible */
+    color: #A91D3A;
+    opacity: 1;
 }
 
 input:focus::placeholder {
-    color: transparent; /* Placeholder color when input is focused */
+    color: transparent;
 }
 
 .eye-icon {
@@ -149,28 +146,71 @@ input:focus::placeholder {
     height: 24px;
 }
 
-.login-button {
-    background-color: black; /* Button background color black */
-    color: white; /* Button text color white */
+.login-button, .register-button {
+    background-color: black;
+    color: white;
     border: none;
-    padding: 15px 200px; /* Button padding */
+    padding: 15px 200px;
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-radius: 30px; /* Button border radius */
-    margin-top: 50px; /* Move the button down */
+    border-radius: 30px;
+    margin-top: 10px;
+    position: relative; /* Add this line */
+    z-index: 3; 
+
 }
 
-.login-button:hover {
+.login-button:hover, .register-button:hover {
     background-color: #8f1530;
 }
 
-.login-form p {
-    color: #8f1530;
-    margin-left: -220px;
+.login-link-container {
+    display: flex;
+    align-items: center;
 }
 
-/* Media Queries for Responsive Design */
+.login-link-container p {
+    margin: 0;
+    font-size: 16px; /* Adjust to your desired font size */
+    margin-top: 10px;
+}
+
+.small-button {
+    margin-left: 10px; /* Adjust the margin to move the button to the right */
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 16px; /* Adjust padding for desired button size */
+    font-size: 12px; /* Adjust font size to match your design */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* Adjust border radius for desired effect */
+    text-decoration: none; /* Remove underline from the link */
+    display: inline-block; /* Ensure it behaves like a button */
+    position: relative; /* Add this line */
+    margin-top: 12px;
+}
+
+.small-button:hover {
+    background-color: #8f1530;
+}
+.curvy-shape {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 1; /* Ensure it's behind other content */
+    pointer-events: none; /* Prevent the SVG from interfering with interactions */
+}
+#error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+
+/* Responsive design */
 @media (max-width: 1024px) {
     .split {
         width: 100%;
@@ -178,16 +218,14 @@ input:focus::placeholder {
         height: auto;
     }
 
-    .left,
-    .right {
+    .left, .right {
         width: 100%;
         position: relative;
         height: auto;
         padding: 20px;
     }
 
-    .top-right,
-    .top-left {
+    .top-right, .top-left {
         position: relative;
         top: 0;
         left: 0;
@@ -195,46 +233,47 @@ input:focus::placeholder {
         text-align: center;
     }
 
-    .welcome,
-    .portal {
+    .welcome, .portal {
         font-size: 48px;
         text-align: center;
     }
 
-    .login {
+    .login, .register {
         margin-right: 0;
         text-align: center;
     }
 
-    .login-form {
+    .login-form, .register-form {
         max-width: 90%;
         margin: auto;
+        position: relative;
+
     }
 
-    .login-button {
+    .login-button, .register-button {
         padding: 10px 100px;
+        position: relative;
+
     }
 }
 
 @media (max-width: 768px) {
-    .welcome,
-    .portal {
+    .welcome, .portal {
         font-size: 32px;
     }
 
-    .login-button {
+    .login-button, .register-button {
         padding: 10px 50px;
         font-size: 16px;
     }
 }
 
 @media (max-width: 480px) {
-    .welcome,
-    .portal {
+    .welcome, .portal {
         font-size: 24px;
     }
 
-    .login-button {
+    .login-button, .register-button {
         padding: 10px 30px;
         font-size: 14px;
     }
@@ -243,7 +282,7 @@ input:focus::placeholder {
         margin-bottom: 15px;
     }
 
-    .login-form p {
+    .login-form p, .register-form p {
         margin-left: 0;
         text-align: center;
     }
