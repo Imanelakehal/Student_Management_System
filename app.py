@@ -71,9 +71,11 @@ def register():
             cur.execute("INSERT INTO users (full_name, student_id, gender, password) VALUES (%s, %s, %s, %s)", (full_name, student_id, gender, hashed_password))
             mysql.connection.commit()
             cur.close()
-            return jsonify({'status': 'success'})
+            flash('Registration successful. Please log in.', 'success')
+            return redirect(url_for('login'))
         else:
-            return jsonify({'status': 'error', 'message': 'Passwords do not match'})
+            flash('Passwords do not match.', 'error')
+            return redirect(url_for('register'))
 
     return render_template('register.html')
 
