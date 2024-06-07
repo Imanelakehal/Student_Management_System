@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.status === 'error') {
                 errorMessage.textContent = data.message;
             } else if (data.status === 'success') {
-                window.location.href = '/dashboard';
+                window.location.href = '/dashboard';  // Change this to your actual dashboard URL
             }
         })
         .catch(error => {

@@ -1,3 +1,4 @@
+import MySQLdb
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
@@ -16,25 +17,43 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password'].encode('utf-8')
+        try:
+            full_name = request.form['username']
+            password = request.form['password']
 
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM users WHERE username = %s", (username,))
-        user = cur.fetchone()
-        cur.close()
+            print(f"Received login attempt for full_name: {full_name}")
+            print(f"Entered password (raw): {password}")
 
-        if user:
-            if bcrypt.check_password_hash(user[2], password):  # Assuming password is in the 2nd column
-                session['username'] = username
-                return jsonify({'status': 'success'})
+            cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cur.execute("SELECT * FROM users WHERE full_name = %s", (full_name,))
+            user = cur.fetchone()
+            cur.close()
+
+            if user:
+                print(f"User found in database: {user}")
+                stored_password = user['password']  # Accessing dictionary key
+                print(f"Stored password hash: {stored_password}")
+
+                # Check the password using bcrypt
+                password_matches = bcrypt.check_password_hash(stored_password, password)
+                print(f"Password matches: {password_matches}")
+
+                if password_matches:
+                    session['username'] = full_name
+                    print("Password matches, login successful")
+                    return jsonify({'status': 'success'})
+                else:
+                    print("Invalid password")
+                    return jsonify({'status': 'error', 'message': 'Invalid password'})
             else:
-                return jsonify({'status': 'error', 'message': 'Invalid password'})
-        else:
-            return jsonify({'status': 'error', 'message': 'User not found. Please register.'})
-
-    return render_template('login.html')
-
+                print("User not found")
+                return jsonify({'status': 'error', 'message': 'User not found. Please register.'})
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return jsonify({'status': 'error', 'message': 'An error occurred. Please try again.'})
+    else:  # Handle GET requests
+        return render_template('login.html')
+    
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
