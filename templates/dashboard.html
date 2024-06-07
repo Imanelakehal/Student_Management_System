@@ -4,9 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+        .sidebar {
+            width: 350px;
+            height: 100%;
+            background-color: #A91D3A;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .sidebar .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .sidebar .title img {
+            margin-right: 10px;
+        }
+        .sidebar .title h1 {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .content {
+            margin-left: 350px;
+            padding: 20px;
+        }
+        .search-bar {
+            width: 590px;
+            height: 30px;
+            background-color: #EEEEEE;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            margin-left: 100px;
+        }
+        .search-bar img {
+            margin-right: 10px;
+        }
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar input::placeholder {
+            color: black;
+        }
+    </style>
 </head>
 <body>
-    <p>Hello bitch!</p>
-    
+    <div class="sidebar">
+        <div class="title">
+            <img src="/static/img/book.svg" alt="Book Icon" width="30" height="30">
+            <h1>SICHUAN UNIVERSITY</h1>
+        </div>
+    </div>
+    <div class="content">
+        <div class="search-bar">
+            <img src="/static/img/search-normal.svg" alt="Search Icon" width="20" height="20">
+            <input type="text" placeholder="Search">
+        </div>
+    </div>
 </body>
 </html>
