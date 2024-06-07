@@ -13,7 +13,9 @@
             font-family: 'Poppins', sans-serif;
         }
         .sidebar {
-            width: 350px;
+            width: 100%; /* Set initial width to 100% */
+            max-width: 350px; /* Set maximum width */
+            min-width: 200px; /* Set minimum width */
             height: 100%;
             background-color: #A91D3A;
             position: fixed;
@@ -42,18 +44,19 @@
             margin: 0;
         }
         .content {
-            margin-left: 350px;
+            margin-left: 0; /* Adjust margin-left to 0 */
             padding: 20px;
         }
         .search-bar {
-            width: 590px;
+            width: 100%; /* Set width to 100% */
+            max-width: 590px; /* Set maximum width */
             height: 30px;
             background-color: #EEEEEE;
             border-radius: 30px;
             display: flex;
             align-items: center;
             padding: 0 10px;
-            margin-left: 100px;
+            margin-left: 0; /* Adjust margin-left to 0 */
         }
         .search-bar img {
             margin-right: 10px;
@@ -71,9 +74,22 @@
             color: black;
         }
         .sidebar hr {
-            width: 100%; /* Adjust as needed */
-            margin: 20px 0; /* Margin of 40px */
-            background-color: white; /* Color of the line */
+            width: 100%;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        @media only screen and (min-width: 768px) {
+            /* Apply styles for screens wider than 768px */
+            .sidebar {
+                width: 350px;
+            }
+            .content {
+                margin-left: 350px;
+            }
+            .search-bar {
+                margin-left: 100px;
+            }
         }
     </style>
 </head>
