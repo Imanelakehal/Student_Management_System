@@ -1,6 +1,7 @@
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 from config import Config
 
 app = Flask(__name__)
@@ -93,6 +94,37 @@ def dashboard():
         return render_template('dashboard.html', username=session['username'])
     else:
         return redirect(url_for('login'))
+    
+@app.route('/courses')
+def display_courses():
+    conn = sqlite3.connect('student_info_system.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM courses")
+    courses = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('courses.html', courses=courses)
+
+@app.route('/enroll', methods=['POST'])
+def enroll():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    student_id = session.get('student_id')
+    course_id = request.form['course_id']
+    enrollment_date = datetime.now().strftime('%Y-%m-%d')
+
+    conn = sqlite3.connect('student_info_system.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO enrollments (student_id, course_id, enrollment_date) VALUES (?, ?, ?)",
+                   (student_id, course_id, enrollment_date))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    flash('Enrollment successful!', 'success')
+    return redirect(url_for('display_courses'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
