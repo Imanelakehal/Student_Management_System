@@ -1,14 +1,17 @@
-import MySQLdb
+import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session
-from flask_mysqldb import MySQL
 from flask_bcrypt import Bcrypt
 from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-mysql = MySQL(app)
 bcrypt = Bcrypt(app)
+
+def get_db_connection():
+    conn = sqlite3.connect('student_info_system.db')
+    conn.row_factory = sqlite3.Row  # This allows us to access columns by name
+    return conn
 
 @app.route('/')
 def home():
@@ -24,10 +27,12 @@ def login():
             print(f"Received login attempt for full_name: {full_name}")
             print(f"Entered password (raw): {password}")
 
-            cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cur.execute("SELECT * FROM users WHERE full_name = %s", (full_name,))
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM users WHERE full_name = ?", (full_name,))
             user = cur.fetchone()
             cur.close()
+            conn.close()
 
             if user:
                 print(f"User found in database: {user}")
@@ -67,10 +72,12 @@ def register():
         # Add your registration logic here
         if password == confirm_password:
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-            cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO users (full_name, student_id, gender, password) VALUES (%s, %s, %s, %s)", (full_name, student_id, gender, hashed_password))
-            mysql.connection.commit()
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute("INSERT INTO users (full_name, student_id, gender, password) VALUES (?, ?, ?, ?)", (full_name, student_id, gender, hashed_password))
+            conn.commit()
             cur.close()
+            conn.close()
             flash('Registration successful. Please log in.', 'success')
             return redirect(url_for('login'))
         else:
@@ -78,6 +85,7 @@ def register():
             return redirect(url_for('register'))
 
     return render_template('register.html')
+
 
 @app.route('/dashboard')
 def dashboard():
