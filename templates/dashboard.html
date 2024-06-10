@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body, html {
             margin: 0;
@@ -72,7 +72,8 @@
             margin-left: 0; /* Adjust margin-left to 0 */
             padding: 20px;
             display: flex;
-            align-items: center;
+            flex-direction: column; /* Add flex direction column */
+            align-items: flex-start;
             position: relative; /* Add relative positioning */
         }
         .icons {
@@ -105,6 +106,51 @@
         .search-bar input::placeholder {
             color: black;
         }
+        .welcome-rectangle {
+            width: 1000px;
+            height: 200px;
+            margin-top: 50px; /* Add margin-top of 50px */
+            background: linear-gradient(to right, #A91D3A 0%, #A91D3A 60%, #DFCFf7 100%); /* Adjusted gradient to transition at the end */
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        .welcome-rectangle .date {
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300; /* Light */
+            color: rgba(255, 255, 255, 0.75); /* White color with 75% opacity */
+            position: absolute;
+            top: 130px;
+            left: 80px;
+        }
+        .welcome-rectangle .welcome {
+            font-size: 32px;
+            font-weight: 600; /* Semi-bold */
+            font-family: 'Poppins', sans-serif;
+            position: absolute;
+            left: 100px;
+        }
+        .welcome-rectangle .update {
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 50;
+            position: absolute;
+            color: rgba(255, 255, 255, 0.75); /* White color with 75% opacity */
+            left: 100px;
+            top: 240px;
+
+        }
+        .welcome-rectangle .student-icon {
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+        }
+
         .sidebar hr {
             width: 100%;
             margin: 20px 0;
@@ -176,6 +222,22 @@
             <img src="/static/img/search-normal.svg" alt="Search Icon" width="20" height="20">
             <input type="text" placeholder="Search">
         </div>
+        <div class="welcome-rectangle">
+            <h3 class="date"></h3>
+            <h2 class="welcome">Welcome back,Student!</h2>
+            <p class="update">Always stay updated in your student portal</p>
+            <img src="/static/img/school.svg" alt="Student Icon" class="student-icon">
+        </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var dateStr = today.toLocaleDateString('en-US', options);
+            document.querySelector('.date').textContent = dateStr;
+        });
+    </script>
+    
+    
 </body>
 </html>
