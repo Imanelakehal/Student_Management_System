@@ -69,3 +69,17 @@ student-info-system/
 
 Registration Page:
 ![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/7872d4c3-7826-40ca-9ac5-208e4673f38d)
+
+Login Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/4121ab1d-b7ab-42de-9bf0-f37fb1e2ea95)
+
+Dashboard Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/ce66878f-1c03-4f77-9cfa-0c99ca55a747)
+
+Courses Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/fe7a4e44-b29c-4220-9484-1cdfd049a072)
+
+
+
+
+
