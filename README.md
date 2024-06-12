@@ -65,3 +65,7 @@ student-info-system/
 ├── [app.py]             # Main application entry point (Flask/Django)
 ├── requirements.txt     # List of dependencies
 └── [README.md]          # Project documentation
+
+
+Registration Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/7872d4c3-7826-40ca-9ac5-208e4673f38d)
