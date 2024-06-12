@@ -31,42 +31,7 @@ Seaborn: A Python visualization library based on Matplotlib that provides a high
 **Framework**
 Flask : For building the web application, routing requests, and serving the HTML pages.
 
-### Project Structure
-
-student-info-system/
-│
-├── db/
-│   └── database.sqlite  # SQLite database file
-│
-├── modules/
-│   ├── [database.py]    # Database operation related code
-│   ├── [analysis.py]    # Data analysis related code
-│   ├── [student.py]     # Student-related functionalities
-│   └── [utils.py]       # Utility functions
-│
-├── static/
-│   ├── css/
-│   │   └── styles.css   # CSS files for styling
-│   ├── js/
-│   │   └── scripts.js   # JavaScript files for interactivity
-│   └── img/             # Images used in the web app (if any)
-│
-├── templates/
-│   ├── base.html        # Base template for HTML pages
-│   ├── login.html       # Login page
-│   ├── register.html    # Registration page
-│   ├── dashboard.html   # Main dashboard
-│   ├── courses.html     # Course management page
-│   ├── accommodation.html # Accommodation management page
-│   ├── books.html       # Books management page
-│   ├── profile.html     # Profile management page
-│   └── analysis.html    # Data analysis page
-│
-├── [app.py]             # Main application entry point (Flask/Django)
-├── requirements.txt     # List of dependencies
-└── [README.md]          # Project documentation
-
-
+**User Interface**
 Registration Page:
 ![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/7872d4c3-7826-40ca-9ac5-208e4673f38d)
 
