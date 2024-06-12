@@ -19,13 +19,14 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Using data attributes to store course info -->
             {% for course in courses %}
             <tr>
                 <td>{{ course[1] }}</td>
                 <td>{{ course[2] }}</td>
                 <td>{{ course[3] }}</td>
                 <td>
-                    <form action="/enroll" method="POST">
+                    <form class="enroll-form" data-course-name="{{ course[1] }}">
                         <input type="hidden" name="course_id" value="{{ course[0] }}">
                         <button type="submit">Enroll</button>
                     </form>
@@ -34,5 +35,44 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.enroll-form');
+            
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();  // Prevent the default form submission
+
+                    const courseId = form.querySelector('input[name="course_id"]').value;
+                    const courseName = form.getAttribute('data-course-name');
+                    const button = form.querySelector('button');
+
+                    // Perform the AJAX request to enroll in the course
+                    fetch('/enroll', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ course_id: courseId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert(`SUCCESSFULLY ENROLLED IN ${courseName}`);
+                            button.textContent = 'Enrolled';
+                            button.disabled = true;
+                        } else {
+                            alert(`Error: ${data.message}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while processing your request.');
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>

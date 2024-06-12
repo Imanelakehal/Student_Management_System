@@ -6,6 +6,9 @@ def initialize_database():
         conn = sqlite3.connect('student_info_system.db')
         cursor = conn.cursor()
 
+        # Drop the courses table if it exists to avoid schema conflicts
+        cursor.execute('DROP TABLE IF EXISTS courses')
+
         # Create the users table if it doesn't exist
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -17,13 +20,15 @@ def initialize_database():
             )
         ''')
 
-        # Create the courses table if it doesn't exist
+        # Create the courses table with additional columns
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS courses (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                course_code TEXT NOT NULL,
                 course_name TEXT NOT NULL,
-                course_description TEXT,
-                instructor TEXT
+                instructor TEXT,
+                credits INTEGER NOT NULL,
+                status TEXT NOT NULL
             )
         ''')
 
@@ -41,13 +46,16 @@ def initialize_database():
 
         # Insert predefined courses into the courses table
         predefined_courses = [
-            ('Math 101', 'Introduction to Mathematics', 'Dr. John Doe'),
-            ('Physics 101', 'Introduction to Physics', 'Dr. Jane Smith'),
-            ('Chemistry 101', 'Introduction to Chemistry', 'Dr. Emily Johnson'),
-            # Add more courses as needed
+            ('MATH101', 'Math 101', 'Dr. John Doe', 3, 'active'),
+            ('PHYS101', 'Physics 101', 'Dr. Jane Smith', 4, 'active'),
+            ('CHEM101', 'Chemistry 101', 'Dr. Emily Johnson', 3, 'active'),
+            ('CN4', 'Chinese_HSK4', 'Izzy', 2, 'Enroll In'),
+            ('DBMS67', 'Database Management', 'Mingjie Tang & Chuan Li', 3, 'Enroll In'),
+            ('SWE45', 'Software Engineering', 'Jizhe Zhou', 2, 'Enroll In'),
+            ('CN102', 'Computer Networks', 'Jingyu Jang', 4, 'Enrolled')
         ]
 
-        cursor.executemany("INSERT INTO courses (course_name, course_description, instructor) VALUES (?, ?, ?)", predefined_courses)
+        cursor.executemany("INSERT INTO courses (course_code, course_name, instructor, credits, status) VALUES (?, ?, ?, ?, ?)", predefined_courses)
 
         # Commit the changes and close the connection
         conn.commit()

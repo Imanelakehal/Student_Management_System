@@ -108,22 +108,26 @@ def display_courses():
 @app.route('/enroll', methods=['POST'])
 def enroll():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return jsonify({'status': 'error', 'message': 'Please log in to enroll'})
 
     student_id = session.get('student_id')
-    course_id = request.form['course_id']
+    data = request.get_json()
+    course_id = data['course_id']
     enrollment_date = datetime.now().strftime('%Y-%m-%d')
 
-    conn = sqlite3.connect('student_info_system.db')
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO enrollments (student_id, course_id, enrollment_date) VALUES (?, ?, ?)",
                    (student_id, course_id, enrollment_date))
+    
+    cursor.execute("SELECT course_name FROM courses WHERE id = ?", (course_id,))
+    course_name = cursor.fetchone()[0]
+
     conn.commit()
     cursor.close()
     conn.close()
 
-    flash('Enrollment successful!', 'success')
-    return redirect(url_for('display_courses'))
+    return jsonify({'status': 'success', 'course_name': course_name})
 
 
 if __name__ == '__main__':
