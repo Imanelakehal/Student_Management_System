@@ -16,7 +16,7 @@ Profile Management Page: Allows students to update their personal information.
 Data Analysis Page: Provides insights through various reports and visualizations on student data.
 
 
-- Tech Stack
+Tech Stack
 **Backend**
 Python: The main programming language for implementing the application's logic and backend operations.
 SQLite: A lightweight database to store and manage all the student, course, accommodation, and book information.
@@ -30,3 +30,38 @@ Matplotlib: A plotting library for creating static, animated, and interactive vi
 Seaborn: A Python visualization library based on Matplotlib that provides a high-level interface for drawing attractive and informative statistical graphics.
 **Framework**
 Flask : For building the web application, routing requests, and serving the HTML pages.
+
+### Project Structure
+
+student-info-system/
+│
+├── db/
+│   └── database.sqlite  # SQLite database file
+│
+├── modules/
+│   ├── [database.py]    # Database operation related code
+│   ├── [analysis.py]    # Data analysis related code
+│   ├── [student.py]     # Student-related functionalities
+│   └── [utils.py]       # Utility functions
+│
+├── static/
+│   ├── css/
+│   │   └── styles.css   # CSS files for styling
+│   ├── js/
+│   │   └── scripts.js   # JavaScript files for interactivity
+│   └── img/             # Images used in the web app (if any)
+│
+├── templates/
+│   ├── base.html        # Base template for HTML pages
+│   ├── login.html       # Login page
+│   ├── register.html    # Registration page
+│   ├── dashboard.html   # Main dashboard
+│   ├── courses.html     # Course management page
+│   ├── accommodation.html # Accommodation management page
+│   ├── books.html       # Books management page
+│   ├── profile.html     # Profile management page
+│   └── analysis.html    # Data analysis page
+│
+├── [app.py]             # Main application entry point (Flask/Django)
+├── requirements.txt     # List of dependencies
+└── [README.md]          # Project documentation
