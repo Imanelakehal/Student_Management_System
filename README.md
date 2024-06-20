@@ -44,6 +44,20 @@ Dashboard Page:
 Courses Page:
 ![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/fe7a4e44-b29c-4220-9484-1cdfd049a072)
 
+Accomodation Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/5d3d1004-a1cd-4796-be19-63320ecc4f10)
+
+Books Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/5797ea9b-ef39-4454-9c80-ed3d7798a1cd)
+
+Profile Page:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/a9b195c0-6e34-4c79-be0b-bd5a1b25190e)
+
+Data Analysis:
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/8a531cb3-84c3-480b-b80b-48b11f3a1914)
+
+
+
 
 
 
