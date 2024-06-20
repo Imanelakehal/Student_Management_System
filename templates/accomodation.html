@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accommodations</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/scripts.js" defer></script>
+    <style>
+        .sidebar {
+            width: 100%; /* Set initial width to 100% */
+            max-width: 350px; /* Set maximum width */
+            min-width: 200px; /* Set minimum width */
+            height: 100%;
+            background-color: #A91D3A;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .sidebar .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .sidebar .title img {
+            margin-right: 10px;
+        }
+        .sidebar .title h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .sidebar .button {
+            width: 300px; /* Set width to 300px */
+            background-color: #A91D3A; /* Set background color to match the sidebar */
+            color: white; /* Set text color to white */
+            border: none;
+            border-radius: 30px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align text to the left */
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for transform and background color */
+            text-decoration: none; /* Remove underline from link */
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-top: 15px; /* Add margin above the button */
+        }
+        .sidebar hr {
+            width: 100%;
+            margin: 20px 0;
+            height: 1px;
+            background-color: white;
+            opacity: 0.5;
+            border: none;
+        }
+        .sidebar .button img {
+            margin-right: 15px;
+        }
+        .sidebar .button:hover {
+            transform: scale(1.05); /* Slightly increase the size on hover */
+            background-color: #C13755; /* Slightly less strong color on hover */
+        }
+    
+        .content {
+            margin-left: 0; /* Adjust margin-left to 0 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Add flex direction column */
+            align-items: flex-start;
+            position: relative; /* Add relative positioning */
+        }
+        .icons {
+            position: absolute; /* Use absolute positioning */
+            left: 1000px; /* Set left margin to 300px */
+        }
+        .search-bar {
+            width: 100%; /* Set width to 100% */
+            max-width: 590px; /* Set maximum width */
+            height: 30px;
+            background-color: #EEEEEE;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            margin-left: 60px; /* Adjust margin-left to 330px to account for icon width and spacing */
+        }
+        .search-bar img {
+            margin-right: 10px;
+        }
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar input::placeholder {
+            color: black;
+        }
+        .content {
+            margin-left: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
+        .icons {
+            position: absolute;
+            left: 1000px;
+        }
+        .content {
+            margin-left: 0; /* Adjust margin-left to 0 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Add flex direction column */
+            align-items: flex-start;
+            position: relative; /* Add relative positioning */
+        }
+        .welcome-rectangle .student-icon {
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+        }
+        .sidebar hr {
+            width: 100%;
+            margin: 20px 0;
+            height: 1px;
+            background-color: white;
+            opacity: 0.5;
+            border: none;
+        }
+        .sidebar p {
+            color: white;
+            font-size: 10px;
+            margin-left: -270px;
+        }
+        .icons {
+            position: absolute; /* Use absolute positioning */
+            left: 1000px; /* Set left margin to 300px */
+        }
+        @media only screen and (min-width: 768px) {
+            .sidebar {
+                width: 350px;
+            }
+            .content {
+                margin-left: 350px;
+            }
+        }
+        .rectangle-container {
+           display: flex;
+           justify-content: flex-start;
+           margin-top: 30px;
+           width: 100%; /* Ensuring container takes the full width */
+        }
+
+        .rectangle {
+           flex: 1 1 0; /* Allow the rectangle to grow and shrink */
+           max-width: 550px;
+           height: 90px;
+           background-color: #A91D3A;
+           border-radius: 10px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           color: white;
+           font-family: 'Poppins', sans-serif;
+           font-size: 18px;
+           margin-right: 20px;
+           padding: 10px;
+        }
+        .rectangle:nth-child(2) {
+            background-color: rgba(235, 146, 152, 0.364); /* 10% color */
+        }
+        .rectangle:nth-child(3) {
+            background-color: rgba(235, 146, 152, 0.364); /* 10% color */
+        }
+        .rectangle p{
+            font-size: 15px;
+            font-weight: bold;
+            color: black;
+        }
+        .rectangle-icon {
+            top: 10px; /* Adjust as necessary to position the icon */
+            width: 40px; /* Adjust the size of the icon */
+            height: 40px; /* Adjust the size of the icon */
+            left: 50%; /* Center the icon horizontally */
+            transform: translateX(-50%); /* Adjust centering */
+        }
+        .Course_table {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .Course_table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .Course_table th, .Course_table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .Course_table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #A91D3A;
+            color: white;
+        }
+        .Course_table h1 {
+            color: #A91D3A;
+        }
+        .Course_table td form button {
+            background-color: #A91D3A;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .Course_table td form button:hover {
+            background-color: #791322; /* Darken the color on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="title">
+            <img src="/static/img/book.svg" alt="Book Icon" width="30" height="30">
+            <h1>SICHUAN UNIVERSITY</h1>
+        </div>
+        <hr>
+        <a href="/dashboard" class="button">
+            <img src="/static/img/dash.svg" alt="Dash Icon" width="20" height="20">
+            Dashboard
+        </a>
+        <hr>
+        <p>ACADEMIC</p>
+        <a href="/courses" class="button">
+            <img src="/static/img/menu.svg" alt="Dash Icon" width="20" height="20">
+            Courses
+        </a>
+        <a href="/accommodations" class="button">
+            <img src="/static/img/location.svg" alt="Dash Icon" width="20" height="20">
+            Accommodation
+        </a>
+        <a href="#" class="button">
+            <img src="/static/img/books.svg" alt="Dash Icon" width="20" height="20">
+            Books
+        </a>
+        <a href="#" class="button">
+            <img src="/static/img/profile.svg" alt="Dash Icon" width="20" height="20">
+            Profile
+        </a>
+        <a href="#" class="button">
+            <img src="/static/img/analysis.png" alt="Dash Icon" width="20" height="20">
+            Data Analysis
+        </a>
+        <hr>
+        <p>SETTINGS</p>
+        <a href="#" class="button">
+            <img src="/static/img/SET.svg" alt="Dash Icon" width="20" height="20">
+            Settings
+        </a>
+    </div>
+    <div class="content">
+        <img class="icons" src="/static/img/icons.svg" alt="Icons" width="100" height="100">
+        <div class="search-bar">
+            <img src="/static/img/search-normal.svg" alt="Search Icon" width="20" height="20">
+            <input type="text" placeholder="Search">
+        </div>
+        <div class="rectangle-container">
+            <div class="rectangle">
+                <img src="/static/img/cp1.svg" alt="CP1" class="rectangle-icon">
+                <p>Total Accommodations</p>
+            </div>
+            <div class="rectangle">
+                <img src="/static/img/cp2.svg" alt="CP2" class="rectangle-icon">
+                <p>Booked</p>
+            </div>
+            <div class="rectangle">
+                <img src="/static/img/cp3.svg" alt="CP3" class="rectangle-icon">
+                <p>Available</p>
+            </div>
+        </div>
+        <div class="Course_table">
+            <h1>Available Accommodations</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Floor</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through accommodations data -->
+                    {% for accommodation in accommodations %}
+                    <tr>
+                        <td>{{ accommodation[1] }}</td>
+                        <td>{{ accommodation[2] }}</td>
+                        <td>{{ accommodation[3] }}</td>
+                        <td>{{ accommodation[4] }}</td>
+                        <td>
+                            <form class="book-form" data-room-number="{{ accommodation[1] }}">
+                                <input type="hidden" name="accommodation_id" value="{{ accommodation[0] }}">
+                                {% if accommodation[5] == 'Book' %}
+                                <button type="submit">Book</button>
+                                {% else %}
+                                Reserved
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        // JavaScript to handle form submissions for booking accommodations
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.book-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const accommodationId = this.querySelector('input[name="accommodation_id"]').value;
+                    fetch('/book_accommodation', {  // Ensure this endpoint matches your Flask route
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ accommodation_id: accommodationId }),  // Ensure correct JSON structure
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            location.reload();  // Reload page or update UI as needed
+                        } else {
+                            alert('Failed to book accommodation.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while booking accommodation.');
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

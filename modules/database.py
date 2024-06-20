@@ -72,10 +72,14 @@ def initialize_database():
 
         # Insert predefined accommodations into the accommodations table
         predefined_accommodations = [
-            ('101', 'North Wing', 'Single', 1, 'Book'),
-            ('102', 'North Wing', 'Double', 1, 'Reserved'),
-            ('201', 'South Wing', 'Single', 2, 'Book'),
-            ('202', 'South Wing', 'Double', 2, 'Reserved')
+            ('C101', 'North Wing', 'Single', 1, 'Book'),
+            ('B102', 'Jiangan Campus', 'Double', 1, 'Reserved'),
+            ('A201', 'Wangjiang Campus', 'Single', 2, 'Book'),
+            ('S202', 'Sushe West', 'Double', 2, 'Reserved'),
+            ('P202', 'South West', 'Double', 2, 'Book'),
+            ('B208', 'Jiangan Campus', 'Double', 2, 'Book'),
+            ('B207', 'North Wing', 'Double', 2, 'Book'),
+            ('A207', 'South Wing', 'Double', 2, 'Book')
         ]
 
         cursor.executemany("INSERT INTO accommodations (roomNo, location, type, floor, status) VALUES (?, ?, ?, ?, ?)", predefined_accommodations)

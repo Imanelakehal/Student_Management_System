@@ -117,5 +117,40 @@ def enroll():
         return jsonify(status='success')
     except sqlite3.Error as e:
         return jsonify(status='error', message=str(e))
+
+def get_accommodations():
+    try:
+        conn = get_db_connection()
+        accommodations = conn.execute('SELECT * FROM accommodations').fetchall()
+        conn.close()
+        return accommodations
+    except sqlite3.Error as e:
+        print(f"Error fetching accommodations: {e}")
+        return None
+
+@app.route('/book_accommodation', methods=['POST'])
+def book_accommodation():
+    data = request.json
+    accommodation_id = data.get('accommodation_id')
+
+    try:
+        conn = get_db_connection()
+        # Update the status of the accommodation to 'Reserved'
+        conn.execute("UPDATE accommodations SET status = 'Reserved' WHERE id = ?", (accommodation_id,))
+        conn.commit()
+        conn.close()
+        return jsonify(status='success')
+    except sqlite3.Error as e:
+        return jsonify(status='error', message=str(e))
+
+@app.route('/accommodations')
+def accommodations():
+    accommodations = get_accommodations()
+    if accommodations is not None:
+        return render_template('accomodation.html', accommodations=accommodations)
+    else:
+        flash('Error fetching accommodations.', 'error')
+        return redirect(url_for('dashboard'))  # Redirect to dashboard or handle error appropriately
+
 if __name__ == '__main__':
     app.run(debug=True)
