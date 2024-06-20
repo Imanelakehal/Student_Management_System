@@ -6,8 +6,9 @@ def initialize_database():
         conn = sqlite3.connect('student_info_system.db')
         cursor = conn.cursor()
 
-        # Drop the courses table if it exists to avoid schema conflicts
+        # Drop tables if they exist to avoid schema conflicts
         cursor.execute('DROP TABLE IF EXISTS courses')
+        cursor.execute('DROP TABLE IF EXISTS accommodations')
 
         # Create the users table if it doesn't exist
         cursor.execute('''
@@ -44,6 +45,18 @@ def initialize_database():
             )
         ''')
 
+        # Create the accommodations table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS accommodations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                roomNo TEXT NOT NULL,
+                location TEXT NOT NULL,
+                type TEXT NOT NULL,
+                floor INTEGER NOT NULL,
+                status TEXT NOT NULL
+            )
+        ''')
+
         # Insert predefined courses into the courses table
         predefined_courses = [
             ('MATH101', 'Math 101', 'Dr. John Doe', 3, 'active'),
@@ -56,6 +69,16 @@ def initialize_database():
         ]
 
         cursor.executemany("INSERT INTO courses (course_code, course_name, instructor, credits, status) VALUES (?, ?, ?, ?, ?)", predefined_courses)
+
+        # Insert predefined accommodations into the accommodations table
+        predefined_accommodations = [
+            ('101', 'North Wing', 'Single', 1, 'Book'),
+            ('102', 'North Wing', 'Double', 1, 'Reserved'),
+            ('201', 'South Wing', 'Single', 2, 'Book'),
+            ('202', 'South Wing', 'Double', 2, 'Reserved')
+        ]
+
+        cursor.executemany("INSERT INTO accommodations (roomNo, location, type, floor, status) VALUES (?, ?, ?, ?, ?)", predefined_accommodations)
 
         # Commit the changes and close the connection
         conn.commit()

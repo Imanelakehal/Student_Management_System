@@ -116,30 +116,44 @@
             color: black;
         }
         .rectangle-container {
-            display: flex;
-            justify-content: flex-start;
-            margin-top: 20px;
+           display: flex;
+           justify-content: flex-start;
+           margin-top: 30px;
+           width: 100%; /* Ensuring container takes the full width */
         }
+
         .rectangle {
-            width: 100%;
-            max-width: 250px;
-            height: 190px;
-            background-color: #A91D3A;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-size: 18px;
-            margin-right: 100px;
-            padding: 10px;
+           flex: 1 1 0; /* Allow the rectangle to grow and shrink */
+           max-width: 550px;
+           height: 90px;
+           background-color: #A91D3A;
+           border-radius: 10px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           color: white;
+           font-family: 'Poppins', sans-serif;
+           font-size: 18px;
+           margin-right: 20px;
+           padding: 10px;
         }
         .rectangle:nth-child(2) {
             background-color: rgba(235, 146, 152, 0.364); /* 10% color */
         }
         .rectangle:nth-child(3) {
             background-color: rgba(235, 146, 152, 0.364); /* 10% color */
+        }
+        .rectangle p{
+            font-size: 15px;
+            font-weight: bold;
+            color: black;
+        }
+        .rectangle-icon {
+            top: 10px; /* Adjust as necessary to position the icon */
+            width: 40px; /* Adjust the size of the icon */
+            height: 40px; /* Adjust the size of the icon */
+            left: 50%; /* Center the icon horizontally */
+            transform: translateX(-50%); /* Adjust centering */
         }
         .Course_table {
             margin-top: 30px;
@@ -193,7 +207,7 @@
             <h1>SICHUAN UNIVERSITY</h1>
         </div>
         <hr>
-        <a href="#" class="button">
+        <a href="/dashboard" class="button">
             <img src="/static/img/dash.svg" alt="Dash Icon" width="20" height="20">
             Dashboard
         </a>
@@ -234,15 +248,19 @@
         </div>
         <div class="rectangle-container">
             <div class="rectangle">
-                <p>Rectangle 1 Content</p>
+                <img src="static\img\cp1.svg" alt="Total Courses Icon" class="rectangle-icon">
+                <p>Total Courses</p>
             </div>
             <div class="rectangle">
-                <p>Rectangle 2 Content</p>
+                <img src="static\img\cp2.svg" alt="Enrolled In Icon" class="rectangle-icon">
+                <p>Enrolled In</p>
             </div>
             <div class="rectangle">
-                <p>Rectangle 3 Content</p>
+                <img src="static\img\cp3.svg" alt="Wishlist Icon" class="rectangle-icon">
+                <p>Wishlist</p>
             </div>
         </div>
+        
         <div class="Course_table">
             <h1>Available Courses</h1>
             <table>
@@ -294,19 +312,33 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success) {
+                        if (data.status === 'success') {
+                            alert(`SUCCESSFULLY ENROLLED IN ${courseName}`);
                             button.textContent = 'Enrolled';
                             button.disabled = true;
+                            updateEnrolledCount();
                         } else {
-                            alert('Enrollment failed.');
+                            alert(`Error: ${data.message}`);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('An error occurred.');
+                        alert('An error occurred while processing your request.');
                     });
                 });
             });
+
+            function updateEnrolledCount() {
+                fetch('/courses')
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newEnrolledCount = doc.querySelector('.rectangle:nth-child(2) p:last-child').textContent;
+                        document.querySelector('.rectangle:nth-child(2) p:last-child').textContent = newEnrolledCount;
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
         });
     </script>
 </body>

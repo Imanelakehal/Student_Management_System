@@ -96,39 +96,26 @@ def dashboard():
         return redirect(url_for('login'))
     
 @app.route('/courses')
-def display_courses():
-    conn = sqlite3.connect('student_info_system.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM courses")
-    courses = cursor.fetchall()
-    cursor.close()
+def index():
+    conn = get_db_connection()
+    courses = conn.execute('SELECT * FROM courses').fetchall()
+    total_courses = conn.execute('SELECT COUNT(*) FROM courses').fetchone()[0]
+    total_enrolled = conn.execute("SELECT COUNT(*) FROM courses WHERE status='Enrolled'").fetchone()[0]
     conn.close()
-    return render_template('courses.html', courses=courses)
+    return render_template('courses.html', courses=courses, total_courses=total_courses, total_enrolled=total_enrolled)
 
 @app.route('/enroll', methods=['POST'])
 def enroll():
-    if 'username' not in session:
-        return jsonify({'status': 'error', 'message': 'Please log in to enroll'})
+    data = request.json
+    course_id = data.get('course_id')
 
-    student_id = session.get('student_id')
-    data = request.get_json()
-    course_id = data['course_id']
-    enrollment_date = datetime.now().strftime('%Y-%m-%d')
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO enrollments (student_id, course_id, enrollment_date) VALUES (?, ?, ?)",
-                   (student_id, course_id, enrollment_date))
-    
-    cursor.execute("SELECT course_name FROM courses WHERE id = ?", (course_id,))
-    course_name = cursor.fetchone()[0]
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-    return jsonify({'status': 'success', 'course_name': course_name})
-
-
+    try:
+        conn = get_db_connection()
+        conn.execute("UPDATE courses SET status = 'Enrolled' WHERE id = ?", (course_id,))
+        conn.commit()
+        conn.close()
+        return jsonify(status='success')
+    except sqlite3.Error as e:
+        return jsonify(status='error', message=str(e))
 if __name__ == '__main__':
     app.run(debug=True)
