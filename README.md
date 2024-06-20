@@ -51,7 +51,7 @@ Books Page:
 ![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/5797ea9b-ef39-4454-9c80-ed3d7798a1cd)
 
 Profile Page:
-![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/a9b195c0-6e34-4c79-be0b-bd5a1b25190e)
+![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/acb856fa-1d04-4853-b9b6-74388275af3e)
 
 Data Analysis:
 ![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/8a531cb3-84c3-480b-b80b-48b11f3a1914)
