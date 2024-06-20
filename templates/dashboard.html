@@ -145,10 +145,10 @@
 
         }
         .welcome-rectangle .student-icon {
-            position: absolute;
-            top: 50%;
-            right: 30px;
-            transform: translateY(-50%);
+            position: relative;
+            top: 250px;
+            left: 370px; /* Adjust left positioning */
+            transform: translateY(-50%) scale(0.5); /* Adjust scale for smaller size */
         }
 
         .sidebar hr {
@@ -164,6 +164,89 @@
             font-size: 10px;
             margin-left: -270px;
         }
+        .tables {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.table {
+    width: 500px; /* Make the tables take up 100% of available space */
+    margin-right: 20px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table h3 {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px; /* Increase padding for better readability */
+    border-bottom: 1px solid #EEEEEE;
+}
+
+th {
+    text-align: left;
+    font-weight: bold;
+}
+
+.enroll-button {
+    background-color: #A91D3A;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Adjust button padding */
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-button:hover {
+    background-color: #C13755;
+}
+.accommodation-section {
+    position: relative;
+    text-align: center; /* Center align text and image */
+    margin-top: 20px;
+}
+.accommodation-section img {
+    width: 100%; /* Ensure the image takes up full width */
+    height: auto;
+    display: block; /* Remove bottom space */
+}
+.accommodation-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by 50% to center */
+    color: #A91D3A; /* White text for contrast */
+    text-align: center; /* Center text within the div */
+    width: 100%; /* Ensure the text takes up the full width of the image */
+    font-size: 40px;
+}
+
+.accommodation-text h2 {
+    font-size: 40px; /* Set font size */
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    margin: 0; /* Remove default margin */
+}
+
+.accommodation-text p {
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    margin: 10px 0 0; /* Add some margin above the paragraph */
+    color: white;
+}
+
 
         @media only screen and (min-width: 768px) {
             /* Apply styles for screens wider than 768px */
@@ -228,7 +311,59 @@
             <p class="update">Always stay updated in your student portal</p>
             <img src="/static/img/school.svg" alt="Student Icon" class="student-icon">
         </div>
+        <div class="tables">
+            <div class="table">
+                <h3>Courses</h3>
+                <table>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Take Course</th>
+                    </tr>
+                    <tr>
+                        <td>Mathematics</td>
+                        <td><button class="enroll-button">ENROLL</button></td>
+                    </tr>
+                    <tr>
+                        <td>Physics</td>
+                        <td><button class="enroll-button">ENROLL</button></td>
+                    </tr>
+                    <tr>
+                        <td>Computer Science</td>
+                        <td><button class="enroll-button">ENROLL</button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table">
+                <h3>Books</h3>
+                <table>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Take Book</th>
+                    </tr>
+                    <tr>
+                        <td>Introduction to Algorithms</td>
+                        <td><button class="enroll-button">Book</button></td>
+                    </tr>
+                    <tr>
+                        <td>The Great Gatsby</td>
+                        <td><button class="enroll-button">Book</button></td>
+                    </tr>
+                    <tr>
+                        <td>Artificial Intelligence: A Modern Approach</td>
+                        <td><button class="enroll-button">Book</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="accommodation-section">
+            <img src="/static/img/dorm.png" alt="Dorm Image">
+            <div class="accommodation-text">
+                <h2>Manage Your Accommodation</h2>
+                <p>Today you can choose your accommodation, update it, or even delete it.</p>
+            </div>
+        </div>
     </div>
+</div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var today = new Date();
@@ -237,7 +372,5 @@
             document.querySelector('.date').textContent = dateStr;
         });
     </script>
-    
-    
 </body>
 </html>
