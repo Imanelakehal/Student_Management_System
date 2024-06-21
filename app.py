@@ -186,6 +186,40 @@ def books():
     else:
         flash('Error fetching books.','error')
         return redirect(url_for('dashboard'))
+    
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    if request.method == 'POST':
+        # Handle form submission
+        address = request.form['address']
+        school = request.form['school']
+        major = request.form['major']
+        date_of_birth = request.form['date_of_birth']
+        gender = request.form['gender']
+        photo = request.form['photo']
+        social_links = request.form['social_links']
+
+        cur.execute('''
+            UPDATE users
+            SET address = ?, school = ?, major = ?, date_of_birth = ?, gender = ?, photo = ?, social_links = ?
+            WHERE full_name = ?
+        ''', (address, school, major, date_of_birth, gender, photo, social_links, session['username']))
+        
+        conn.commit()
+        flash('Profile updated successfully!', 'success')
+
+    cur.execute('SELECT * FROM users WHERE full_name = ?', (session['username'],))
+    user = cur.fetchone()
+    conn.close()
+
+    return render_template('profile.html', user=user)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

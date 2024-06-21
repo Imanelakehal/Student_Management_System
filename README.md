@@ -15,7 +15,6 @@ Books Management Page: Facilitates the purchase and management of course-related
 Profile Management Page: Allows students to update their personal information.
 Data Analysis Page: Provides insights through various reports and visualizations on student data.
 
-
 Tech Stack
 **Backend**
 Python: The main programming language for implementing the application's logic and backend operations.
@@ -55,10 +54,3 @@ Profile Page:
 
 Data Analysis:
 ![image](https://github.com/Imanelakehal/Student_Management_System/assets/128871424/8a531cb3-84c3-480b-b80b-48b11f3a1914)
-
-
-
-
-
-
-

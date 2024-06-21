@@ -7,6 +7,7 @@ def initialize_database():
         cursor = conn.cursor()
 
         # Drop tables if they exist to avoid schema conflicts
+        
         cursor.execute('DROP TABLE IF EXISTS courses')
         cursor.execute('DROP TABLE IF EXISTS accommodations')
         cursor.execute('DROP TABLE IF EXISTS books')
@@ -18,7 +19,13 @@ def initialize_database():
                 full_name TEXT NOT NULL,
                 student_id TEXT NOT NULL,
                 gender TEXT NOT NULL,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                address TEXT,
+                school TEXT,
+                major TEXT,
+                date_of_birth TEXT,
+                photo TEXT,
+                social_links TEXT
             )
         ''')
 
