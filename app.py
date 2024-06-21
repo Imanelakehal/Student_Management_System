@@ -152,5 +152,40 @@ def accommodations():
         flash('Error fetching accommodations.', 'error')
         return redirect(url_for('dashboard'))  # Redirect to dashboard or handle error appropriately
 
+@app.route('/book_book', methods=['POST'])
+def book_book():
+    data = request.json
+    book_id = data.get('book_id')
+
+    try:
+        conn = get_db_connection()
+        # Update the status of the book to 'Booked'
+        conn.execute("UPDATE books SET status = 'Booked' WHERE id = ?", (book_id,))
+        conn.commit()
+        conn.close()
+        return jsonify(status='success')
+    except sqlite3.Error as e:
+        return jsonify(status='error', message=str(e))
+
+
+def get_books():
+    try:
+        conn = get_db_connection()
+        books = conn.execute('SELECT * FROM books').fetchall()
+        conn.close()
+        return books
+    except sqlite3.Error as e:
+        print(f"Error fetching books: {e}")
+        return None
+
+@app.route('/books')
+def books():
+    books = get_books()
+    if books is not None:
+        return render_template('books.html', books=books)
+    else:
+        flash('Error fetching books.','error')
+        return redirect(url_for('dashboard'))
+
 if __name__ == '__main__':
     app.run(debug=True)

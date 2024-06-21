@@ -9,6 +9,7 @@ def initialize_database():
         # Drop tables if they exist to avoid schema conflicts
         cursor.execute('DROP TABLE IF EXISTS courses')
         cursor.execute('DROP TABLE IF EXISTS accommodations')
+        cursor.execute('DROP TABLE IF EXISTS books')
 
         # Create the users table if it doesn't exist
         cursor.execute('''
@@ -57,6 +58,17 @@ def initialize_database():
             )
         ''')
 
+        # Create the books table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS books (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       bookId TEXT NOT NULL,
+                       title TEXT NOT NULL,
+                       course TEXT NOT NULL,
+                       status TEXT NOT NULL
+            )
+        ''')
+
         # Insert predefined courses into the courses table
         predefined_courses = [
             ('MATH101', 'Math 101', 'Dr. John Doe', 3, 'active'),
@@ -83,7 +95,20 @@ def initialize_database():
         ]
 
         cursor.executemany("INSERT INTO accommodations (roomNo, location, type, floor, status) VALUES (?, ?, ?, ?, ?)", predefined_accommodations)
+        
+        # Insert predefined books into the books table
+        predefined_books= [
+            ('C408','Computer Networks 9th Edition', 'Computer Networks','Book'),
+            ('B407','Probability and statistics 7th Edition', 'Mathematics','Not Available'),
+            ('C404','Computer Architecture 9th Edition', 'Computer Architecture','Book'),
+            ('B405','The song of Achilles', 'Literature','Book'),
+            ('A408','A man Called Ove', 'Novel','Book'),
+            ('E407','Crime and Punishment', 'Literature','Book'),
+            ('W409','Database management basics', 'DBMS','Book'),
+            ('Z508','Neural Networks', 'Machine Learning','Not Available ')
+        ]
 
+        cursor.executemany('INSERT INTO books (bookId, title, course, status) VALUES(?,?,?,?)', predefined_books)
         # Commit the changes and close the connection
         conn.commit()
         conn.close()

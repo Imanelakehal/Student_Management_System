@@ -47,13 +47,13 @@
             padding: 10px;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Align text to the left */
+            justify-content: flex-start; 
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for transform and background color */
-            text-decoration: none; /* Remove underline from link */
+            transition: transform 0.3s ease, background-color 0.3s ease; 
+            text-decoration: none; 
             font-family: 'Poppins', sans-serif;
             font-size: 16px;
-            margin-top: 15px; /* Add margin above the button */
+            margin-top: 15px; 
         }
         .sidebar hr {
             width: 100%;
@@ -67,32 +67,34 @@
             margin-right: 15px;
         }
         .sidebar .button:hover {
-            transform: scale(1.05); /* Slightly increase the size on hover */
-            background-color: #C13755; /* Slightly less strong color on hover */
+            transform: scale(1.05); 
+            background-color: #C13755; 
         }
     
         .content {
-            margin-left: 0; /* Adjust margin-left to 0 */
+            margin-left: 0; 
             padding: 20px;
             display: flex;
-            flex-direction: column; /* Add flex direction column */
+            flex-direction: column;
             align-items: flex-start;
-            position: relative; /* Add relative positioning */
+            position: relative; 
         }
         .icons {
-            position: absolute; /* Use absolute positioning */
-            left: 1000px; /* Set left margin to 300px */
+            position: absolute; 
+            left: 1000px; 
+            top: -15px;
+
         }
         .search-bar {
-            width: 100%; /* Set width to 100% */
-            max-width: 590px; /* Set maximum width */
+            width: 100%; 
+            max-width: 590px; 
             height: 30px;
             background-color: #EEEEEE;
             border-radius: 30px;
             display: flex;
             align-items: center;
             padding: 0 10px;
-            margin-left: 60px; /* Adjust margin-left to 330px to account for icon width and spacing */
+            margin-left: 60px;
         }
         .search-bar img {
             margin-right: 10px;
@@ -259,7 +261,7 @@
             <img src="/static/img/location.svg" alt="Dash Icon" width="20" height="20">
             Accommodation
         </a>
-        <a href="#" class="button">
+        <a href="/books" class="button">
             <img src="/static/img/books.svg" alt="Dash Icon" width="20" height="20">
             Books
         </a>
