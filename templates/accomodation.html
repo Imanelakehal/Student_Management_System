@@ -237,6 +237,55 @@
         .Course_table td form button:hover {
             background-color: #791322; /* Darken the color on hover */
         }
+        /* Add styles for modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.modal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal form label,
+.modal form input,
+.modal form button {
+    margin-bottom: 10px;
+}
+
 
     </style>
 </head>
@@ -326,7 +375,8 @@
                                 {% if accommodation[5] == 'Book' %}
                                 <button type="submit">Book</button>
                                 {% else %}
-                                Reserved
+                                <button type="button" class="update-button">Update</button>
+                                <button type="button" class="cancel-button">Cancel</button>
                                 {% endif %}
                             </form>
                         </td>
@@ -334,37 +384,165 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <!-- Add modals for updating and canceling bookings -->
+<!-- Update modal to include all accommodation details -->
+<div id="updateModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Update Accommodation</h2>
+        <form id="updateForm">
+            <input type="hidden" name="accommodation_id">
+            <label for="roomNumber">Room Number:</label>
+            <input type="text" id="roomNumber" name="room_number" required>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type" required>
+            <label for="floor">Floor:</label>
+            <input type="text" id="floor" name="floor" required>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+
+
+<div id="cancelModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Cancel Booking</h2>
+        <form id="cancelForm">
+            <input type="hidden" name="accommodation_id">
+            <p>Are you sure you want to cancel this booking?</p>
+            <button type="submit">Yes</button>
+            <button type="button" class="close">No</button>
+        </form>
+    </div>
+</div>
         </div>
     </div>
     <script>
-        // JavaScript to handle form submissions for booking accommodations
+        // JavaScript to handle form submissions for booking, updating, and canceling accommodations
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.book-form').forEach(form => {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    const accommodationId = this.querySelector('input[name="accommodation_id"]').value;
-                    fetch('/book_accommodation', {  // Ensure this endpoint matches your Flask route
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ accommodation_id: accommodationId }),  // Ensure correct JSON structure
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            location.reload();  // Reload page or update UI as needed
-                        } else {
-                            alert('Failed to book accommodation.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while booking accommodation.');
-                    });
-                });
+    document.querySelectorAll('.book-form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const accommodationId = this.querySelector('input[name="accommodation_id"]').value;
+            fetch('/book_accommodation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ accommodation_id: accommodationId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    location.reload();
+                } else {
+                    alert('Failed to book accommodation.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while booking accommodation.');
             });
         });
+    });
+
+    // Add event listeners for update and cancel buttons
+    document.querySelectorAll('.update-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const form = this.closest('form');
+            const accommodationId = form.querySelector('input[name="accommodation_id"]').value;
+            fetch(`/get_accommodation/${accommodationId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('#updateModal input[name="accommodation_id"]').value = data.id;
+                    document.querySelector('#updateModal input[name="room_number"]').value = data.room_number;
+                    document.querySelector('#updateModal input[name="location"]').value = data.location;
+                    document.querySelector('#updateModal input[name="type"]').value = data.type;
+                    document.querySelector('#updateModal input[name="floor"]').value = data.floor;
+                    document.getElementById('updateModal').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching accommodation details.');
+                });
+        });
+    });
+
+    document.querySelectorAll('.cancel-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const form = this.closest('form');
+            const accommodationId = form.querySelector('input[name="accommodation_id"]').value;
+            document.querySelector('#cancelModal input[name="accommodation_id"]').value = accommodationId;
+            document.getElementById('cancelModal').style.display = 'block';
+        });
+    });
+
+    // Handle update form submission
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const accommodationId = this.querySelector('input[name="accommodation_id"]').value;
+        const roomNumber = this.querySelector('input[name="room_number"]').value;
+        const location = this.querySelector('input[name="location"]').value;
+        const type = this.querySelector('input[name="type"]').value;
+        const floor = this.querySelector('input[name="floor"]').value;
+        fetch('/update_accommodation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ accommodation_id: accommodationId, room_number: roomNumber, location: location, type: type, floor: floor }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert('Failed to update accommodation.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating accommodation.');
+        });
+    });
+
+    // Handle cancel form submission
+    document.getElementById('cancelForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const accommodationId = this.querySelector('input[name="accommodation_id"]').value;
+        fetch('/cancel_accommodation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ accommodation_id: accommodationId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert('Failed to cancel booking.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while canceling booking.');
+        });
+    });
+
+    // Handle modal close
+    document.querySelectorAll('.modal .close').forEach(span => {
+        span.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+});
+
+
     </script>
 </body>
 </html>

@@ -115,7 +115,7 @@
             color: black;
         }
         .profile-container {
-            width: 950px;
+            width: 550px;
             height : 900px;
             margin-top : 50px ;
             margin-left: 50px;
@@ -131,19 +131,17 @@
     margin-bottom: 20px;
 }
 .btn {
-    flex: 1;
     padding: 10px;
-    margin: 2px;
+    margin: 0px;
     background-color: white;
     color: #242731;
     border: none;
     transition: background 0.3s;
-    font-family: 'poppins';
+    font-family: 'Poppins', sans-serif;
     border-radius: 4px;
-    width:auto;
     font-size: 14px;
     cursor: pointer;
-
+    width: auto;
 }
 
 .btn:hover{
@@ -151,16 +149,17 @@
 
 }
 .profile-btn {
-    flex: 1;
     padding: 10px;
-    margin: 5px;
-    background: rgba(169, 29, 58, 0.1); /* #A91D3A with 10% opacity */
-    color: #242;
+    margin: 0px;
+    background: rgba(169, 29, 58, 0.3); /* Slightly darker on hover */
+    color: #242731;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
     transition: background 0.3s;
-    font-size: bold;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    width: auto;
 }
 
 .profile-btn:hover {
@@ -177,25 +176,63 @@
     font-style: 'poppins';
     font-size: 15px;
     font-weight:bold;
-    margin: 7px;
+    margin: 2px;
     color: #242731;
 }
 .update {
     margin-left: 10px;
-    margin-top: 20px;
-    font-style: 'poppins';
-    font-size: 10px;
-    margin: 7px;
+    margin-top: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin: 2px;
     color: #242731;
 }
         .profile-container hr {
-            width: 100%;
+            width: 900px;
             margin: 20px 0;
             height: 2px; /* Adjust height to make it thinner */
             background-color: #E9EAEC;
             opacity: 0.5; /* Adjust opacity to make it less bold */
             border: none; /* Remove border */
         }
+        .Info-container {
+            width: 900px;
+        display: flex;
+        flex-wrap: wrap; /* Enable wrapping */
+        gap: 10px; /* Adjust the gap between columns */
+        margin-bottom: 15px;
+    }
+
+    .Info-container p {
+        margin: 0 0 5px;
+        font-weight: 400;
+        color: #242731;
+        width: 300px; /* Adjust width of labels */
+    }
+
+    .Info-container input {
+        flex: 1; /* Use remaining space */
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 300px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #A91D3A;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: black;
+    }
        
     </style>
 </head>
@@ -257,7 +294,64 @@
             <p class="profile">Profile</p>
             <p class="update">Update your photo and personal details here.</p>
             <hr>
+            <form action="/update_profile" method="POST">
+                <div class="Info-container">
+                    <div>
+                        <p>Full Name</p>
+                        <input type="text" id="full_name" name="full_name" placeholder="Imane Lakehal">
+                    </div>
+                    <div>
+                        <p>Student ID</p>
+                        <input type="text" id="student_id" name="student_id" placeholder="2021521460200">
+                    </div>
+                </div>
+                <div class="Info-container">
+                    <div>
+                        <p>Gender</p>
+                        <input type="text" id="gender" name="gender" placeholder="Female">
+                    </div>
+                    <div>
+                        <p>Password</p>
+                        <input type="password" id="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="Info-container">
+                    <div>
+                        <p>Address</p>
+                        <input type="text" id="address" name="address" placeholder="2445 Crosswind Drive">
+                    </div>
+                    <div>
+                        <p>School</p>
+                        <input type="text" id="school" name="school" placeholder="Sichuan University">
+                    </div>
+                </div>
+                <div class="Info-container">
+                    <div>
+                        <p>Major</p>
+                        <input type="text" id="major" name="major" placeholder="Software Engineering">
+                    </div>
+                    <div>
+                        <p>Photo URL</p>
+                        <input type="text" id="photo" name="photo" placeholder="Photo URL">
+                    </div>
+                </div>
+                <div class="Info-container">
+                    <div>
+                        <p>Social Links</p>
+                        <input type="text" id="social_links" name="social_links" placeholder="Social Links">
+                    </div>
+                </div>
+                <div class="Info-container">
+                    <div>
+                       <p>Date of Birth</p>
+                       <input type="date" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth">
+                   </div>
+                </div>
+                <button type="submit">Update Profile</button>
+            </div>
+        </form>
         </div>
+        
         
 
     

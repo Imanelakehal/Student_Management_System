@@ -180,18 +180,28 @@
             background-color: #A91D3A;
             color: white;
         }
-        .Course_table td form button {
-            background-color: #A91D3A;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .Course_table td form button:hover {
-            background-color: #C13755;
-        }
+        .enroll-button, .drop-button {
+    background-color: #A91D3A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-button:hover, .drop-button:hover {
+    background-color: #C13755;
+}
+
+.drop-button {
+    background-color: black; /* Different color for drop button */
+}
+
+.drop-button:hover {
+    background-color: #FF4500; /* Darker shade for hover */
+}
+
         @media only screen and (min-width: 768px) {
             .sidebar {
                 width: 350px;
@@ -282,9 +292,13 @@
                         <td>{{ course[2] }}</td>
                         <td>{{ course[3] }}</td>
                         <td>
-                            <form class="enroll-form" data-course-name="{{ course[1] }}">
+                            <form class="course-form" data-course-name="{{ course[1] }}">
                                 <input type="hidden" name="course_id" value="{{ course[0] }}">
-                                <button type="submit">Enroll</button>
+                                {% if course.enrolled %}
+                                    <button type="submit" class="drop-button">Drop Course</button>
+                                {% else %}
+                                    <button type="submit" class="enroll-button">Enroll</button>
+                                {% endif %}
                             </form>
                         </td>
                     </tr>
@@ -295,53 +309,69 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('.enroll-form');
-            
-            forms.forEach(form => {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
+    const forms = document.querySelectorAll('.course-form');
 
-                    const courseId = form.querySelector('input[name="course_id"]').value;
-                    const courseName = form.getAttribute('data-course-name');
-                    const button = form.querySelector('button');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-                    fetch('/enroll', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ course_id: courseId })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            alert(`SUCCESSFULLY ENROLLED IN ${courseName}`);
-                            button.textContent = 'Enrolled';
-                            button.disabled = true;
-                            updateEnrolledCount();
-                        } else {
-                            alert(`Error: ${data.message}`);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while processing your request.');
-                    });
-                });
+            const courseId = form.querySelector('input[name="course_id"]').value;
+            const courseName = form.getAttribute('data-course-name');
+            const button = form.querySelector('button');
+            const action = button.classList.contains('drop-button') ? 'drop' : 'enroll';
+            const url = action === 'enroll' ? '/enroll' : '/drop_course';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ course_id: courseId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (action === 'enroll') {
+                        alert(`SUCCESSFULLY ENROLLED IN ${courseName}`);
+                        button.textContent = 'Drop Course';
+                        button.classList.remove('enroll-button');
+                        button.classList.add('drop-button');
+                    } else {
+                        alert(`SUCCESSFULLY DROPPED ${courseName}`);
+                        button.textContent = 'Enroll';
+                        button.classList.remove('drop-button');
+                        button.classList.add('enroll-button');
+                    }
+                    button.disabled = false;
+                    updateEnrolledCount();
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
             });
-
-            function updateEnrolledCount() {
-                fetch('/courses')
-                    .then(response => response.text())
-                    .then(html => {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
-                        const newEnrolledCount = doc.querySelector('.rectangle:nth-child(2) p:last-child').textContent;
-                        document.querySelector('.rectangle:nth-child(2) p:last-child').textContent = newEnrolledCount;
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
         });
+    });
+
+    function updateEnrolledCount() {
+        fetch('/courses')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newEnrolledCount = doc.querySelector('.rectangle:nth-child(2) p:last-child').textContent;
+                document.querySelector('.rectangle:nth-child(2) p:last-child').textContent = newEnrolledCount;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Call updateEnrolledCount on page load
+    updateEnrolledCount();
+});
+
+
     </script>
 </body>
 </html>

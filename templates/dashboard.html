@@ -249,23 +249,24 @@ th {
     color: white;
     margin-top: 20px;
 }
-.Book {
-        background-color: #A91D3A;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        margin-top: 50px;
-    }
+a.Book {
+            display: inline-block;
+            background-color: #A91D3A;
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 50px;
+        }
 
-    .Book:hover {
-        background-color: black;
-        transform: translateY(-5px);
-    }
-
+        a.Book:hover {
+            background-color: black;
+            transform: translateY(-5px);
+        }
         @media only screen and (min-width: 768px) {
             /* Apply styles for screens wider than 768px */
             .sidebar {
@@ -378,7 +379,7 @@ th {
             <div class="accommodation-text">
                 <h2>Manage Your Accommodation</h2>
                 <p>Today you can choose your accommodation, update it, or even delete it.</p>
-                <button class="Book">Book Now</button>
+                <a href="/accommodations" class="Book">Book Now</a>
             </div>
         </div>
     </div>
