@@ -185,11 +185,12 @@ def initialize_database():
 def get_connection():
     return sqlite3.connect('student_info_system.db')
 
+# Test class to test database operations
 class TestStudentDB(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Initialize the database for testing (assuming initialize_database is in database.py)
+        # Initialize the database for testing
         initialize_database()
 
     def setUp(self):
@@ -267,17 +268,14 @@ class TestStudentDB(unittest.TestCase):
         self.assertEqual(user[5], '789 Elm St')
 
     def test_update_user_password(self):
-        # Test updating user password
+        # Test updating a user's password
         self.cursor.execute("UPDATE users SET password=? WHERE id=?", ('newpassword', 1))
         self.conn.commit()
         
-        # Retrieve the updated user information
+        # Check if the password was updated correctly
         self.cursor.execute("SELECT * FROM users WHERE id=?", (1,))
         user = self.cursor.fetchone()
-        self.assertIsNotNone(user)
-        
-        # Ensure that the password has been updated correctly
-        self.assertEqual(user[4], 'newpassword')
+        self.assertEqual(user[5], 'newpassword')
 
     # Test cases for courses table
     def test_insert_course(self):
@@ -306,18 +304,30 @@ class TestStudentDB(unittest.TestCase):
         self.assertIsNone(course)
 
     # Test cases for enrollments table
-    def test_insert_enrollment(self):
-        # Test inserting an enrollment into the database
-        self.cursor.execute("INSERT INTO enrollments (student_id, course_id, enrollment_date) VALUES (?, ?, ?)", (1, 1, '2023-06-01'))
-        self.conn.commit()
-        
-        # Check if the enrollment was inserted correctly
-        self.cursor.execute("SELECT * FROM enrollments WHERE id=?", (self.cursor.lastrowid,))
-        enrollment = self.cursor.fetchone()
-        self.assertIsNotNone(enrollment)
-        self.assertEqual(enrollment[1], 1)
-        self.assertEqual(enrollment[2], 1)
-        self.assertEqual(enrollment[3], '2023-06-01')
+    # Test cases for enrollments table
+def test_insert_enrollment(self):
+    # Test inserting an enrollment into the database
+    self.cursor.execute("INSERT INTO enrollments (student_id, course_id, enrollment_date) VALUES (?, ?, ?)", (1, 1, '2023-06-01'))
+    self.conn.commit()
+    
+    # Check if the enrollment was inserted correctly
+    self.cursor.execute("SELECT * FROM enrollments WHERE id=?", (self.cursor.lastrowid,))
+    enrollment = self.cursor.fetchone()
+    self.assertIsNotNone(enrollment)
+    self.assertEqual(enrollment[1], 1)
+    self.assertEqual(enrollment[2], 1)
+    self.assertEqual(enrollment[3], '2023-06-01')
+
+def test_update_enrollment_date(self):
+    # Test updating an enrollment date
+    self.cursor.execute("UPDATE enrollments SET enrollment_date=? WHERE id=?", ('2023-06-15', self.cursor.lastrowid))
+    self.conn.commit()
+    
+    # Check if the date was updated correctly
+    self.cursor.execute("SELECT * FROM enrollments WHERE id=?", (self.cursor.lastrowid,))
+    enrollment = self.cursor.fetchone()
+    self.assertIsNotNone(enrollment)
+    self.assertEqual(enrollment[4], '2023-06-15')
 
     # Test cases for accommodations table
     def test_insert_accommodation(self):
@@ -345,8 +355,34 @@ class TestStudentDB(unittest.TestCase):
         accommodation = self.cursor.fetchone()
         self.assertIsNone(accommodation)
 
-   
+    # Test cases for books table
+    # Test cases for books table
+def test_insert_book(self):
+    # Test inserting a book into the database
+    self.cursor.execute("INSERT INTO books (bookId, title, course, status) VALUES (?, ?, ?, ?)", ('D403', 'Data Structures and Algorithms', 'Computer Science', 'Book'))
+    self.conn.commit()
+    
+    # Check if the book was inserted correctly
+    self.cursor.execute("SELECT * FROM books WHERE bookId=?", ('D403',))
+    book = self.cursor.fetchone()
+    self.assertIsNotNone(book)
+    self.assertEqual(book[1], 'D403')
+    self.assertEqual(book[2], 'Data Structures and Algorithms')
+    self.assertEqual(book[3], 'Computer Science')
+    self.assertEqual(book[4], 'Book')
 
+def test_update_book_status(self):
+    # Test updating a book's status
+    self.cursor.execute("UPDATE books SET status=? WHERE id=?", ('Not Available', self.cursor.lastrowid))
+    self.conn.commit()
+
+    # Check if the status was updated correctly
+    self.cursor.execute("SELECT * FROM books WHERE id=?", (self.cursor.lastrowid,))
+    book = self.cursor.fetchone()
+    self.assertIsNotNone(book)
+    self.assertEqual(book[4], 'Not Available')
+
+    
 if __name__ == '__main__':
     initialize_database()
     unittest.main()

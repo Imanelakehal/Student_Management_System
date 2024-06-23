@@ -278,67 +278,67 @@
         </div>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        fetch('/api/students')
-            .then(response => response.json())
-            .then(students => {
-                const studentCards = document.getElementById('student-cards');
-                students.forEach(student => {
-                    const card = document.createElement('div');
-                    card.classList.add('student-card');
-                    card.innerHTML = `
-                        <h3>${student.name}</h3>
-                        <p>Age: ${student.age}</p>
-                        <p>Major: ${student.major}</p>
-                        <p>Gender: ${student.gender}</p>
-                        <p>Region: ${student.region}</p>
-                        <button class="btn-delete" data-id="${student.id}">Delete</button>
-                    `;
-                    studentCards.appendChild(card);
-                });
-
-                document.querySelectorAll('.btn-delete').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const studentId = this.getAttribute('data-id');
-                        fetch('/api/delete_student/' + studentId, {
-                            method: 'DELETE'
-                        })
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.status === 'success') {
-                                this.parentElement.remove();
-                            } else {
-                                alert('Error deleting student');
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/students')
+                .then(response => response.json())
+                .then(students => {
+                    const studentCards = document.getElementById('student-cards');
+                    students.forEach(student => {
+                        const card = document.createElement('div');
+                        card.classList.add('student-card');
+                        card.innerHTML = `
+                            <h3>${student.name}</h3>
+                            <p>Age: ${student.age}</p>
+                            <p>Major: ${student.major}</p>
+                            <p>Gender: ${student.gender}</p>
+                            <p>Region: ${student.region}</p>
+                            <button class="btn-delete" data-id="${student.id}">Delete</button>
+                        `;
+                        studentCards.appendChild(card);
                     });
-                });
-            })
-            .catch(error => console.error('Error fetching students:', error));
 
-        // Fetch analysis results
-        fetch('/api/analysis')
-            .then(response => response.json())
-            .then(analysis => {
-                const analysisResults = document.getElementById('analysis-results');
-                analysisResults.innerHTML = `
-                    <h2>Analysis Results</h2>
-                    <h3>Gender Ratio by Major</h3>
-                    <pre>${JSON.stringify(analysis.gender_ratio, null, 2)}</pre>
-                    <h3>Average Scores by Major</h3>
-                    <pre>${JSON.stringify(analysis.major_scores, null, 2)}</pre>
-                    <h3>Average Scores by Age</h3>
-                    <pre>${JSON.stringify(analysis.age_scores, null, 2)}</pre>
-                    <h3>Average Scores by Region</h3>
-                    <pre>${JSON.stringify(analysis.region_scores, null, 2)}</pre>
-                    <h3>Average Scores by Gender</h3>
-                    <pre>${JSON.stringify(analysis.gender_scores, null, 2)}</pre>
-                `;
-            })
-            .catch(error => console.error('Error fetching analysis results:', error));
-    });
-</script>
+                    document.querySelectorAll('.btn-delete').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const studentId = this.getAttribute('data-id');
+                            fetch('/api/delete_student/' + studentId, {
+                                method: 'DELETE'
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.status === 'success') {
+                                    this.parentElement.remove();
+                                } else {
+                                    alert('Error deleting student');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching students:', error));
+
+            // Fetch analysis results
+            fetch('/api/analysis')
+                .then(response => response.json())
+                .then(analysis => {
+                    const analysisResults = document.getElementById('analysis-results');
+                    analysisResults.innerHTML = `
+                        <h2>Analysis Results</h2>
+                        <h3>Gender Ratio by Major</h3>
+                        <pre>${JSON.stringify(analysis.gender_ratio, null, 2)}</pre>
+                        <h3>Average Scores by Major</h3>
+                        <pre>${JSON.stringify(analysis.major_scores, null, 2)}</pre>
+                        <h3>Average Scores by Age</h3>
+                        <pre>${JSON.stringify(analysis.age_scores, null, 2)}</pre>
+                        <h3>Average Scores by Region</h3>
+                        <pre>${JSON.stringify(analysis.region_scores, null, 2)}</pre>
+                        <h3>Average Scores by Gender</h3>
+                        <pre>${JSON.stringify(analysis.gender_scores, null, 2)}</pre>
+                    `;
+                })
+                .catch(error => console.error('Error fetching analysis results:', error));
+        });
+    </script>
 </body>
 </html>
