@@ -11,6 +11,7 @@ def initialize_database():
         cursor.execute('DROP TABLE IF EXISTS courses')
         cursor.execute('DROP TABLE IF EXISTS accommodations')
         cursor.execute('DROP TABLE IF EXISTS books')
+        
 
         # Create the users table if it doesn't exist
         cursor.execute('''

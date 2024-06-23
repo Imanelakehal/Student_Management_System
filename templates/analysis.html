@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+    width: 900px; /* Set width to 900px */
+    margin: 0 auto; /* Center the container */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    margin-left: 400px; /* Adjust margin-left to 0 */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Add flex direction column */
+    align-items: center; /* Center content */
+    position: relative; /* Add relative positioning */
+}
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .student-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .student-card h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .student-card p {
+            margin: 5px 0;
+        }
+        .student-card .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .student-card .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .sidebar {
+            width: 100%; /* Set initial width to 100% */
+            max-width: 350px; /* Set maximum width */
+            min-width: 200px; /* Set minimum width */
+            height: 100%;
+            background-color: #A91D3A;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .sidebar .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .sidebar .title img {
+            margin-right: 10px;
+        }
+        .sidebar .title h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .sidebar .button {
+            width: 300px; /* Set width to 300px */
+            background-color: #A91D3A; /* Set background color to match the sidebar */
+            color: white; /* Set text color to white */
+            border: none;
+            border-radius: 30px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align text to the left */
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for transform and background color */
+            text-decoration: none; /* Remove underline from link */
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-top: 15px; /* Add margin above the button */
+        }
+        .sidebar .button img {
+            margin-right: 15px;
+        }
+        .sidebar .button:hover {
+            transform: scale(1.05); /* Slightly increase the size on hover */
+            background-color: #C13755; /* Slightly less strong color on hover */
+        }
+    
+        .icons {
+            position: absolute; /* Use absolute positioning */
+            left: 1000px; /* Set left margin to 300px */
+            top: -15px;
+
+        }
+        .search-bar {
+            width: 100%; /* Set width to 100% */
+            max-width: 590px; /* Set maximum width */
+            height: 30px;
+            background-color: #EEEEEE;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            margin-left: 60px; /* Adjust margin-left to 330px to account for icon width and spacing */
+        }
+        .search-bar img {
+            margin-right: 10px;
+        }
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar input::placeholder {
+            color: black;
+        }
+        .welcome-rectangle {
+            width: 1000px;
+            height: 200px;
+            margin-top: 50px; /* Add margin-top of 50px */
+            background: linear-gradient(to right, #A91D3A 0%, #A91D3A 60%, #DFCFf7 100%); /* Adjusted gradient to transition at the end */
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        .welcome-rectangle .date {
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300; /* Light */
+            color: rgba(255, 255, 255, 0.75); /* White color with 75% opacity */
+            position: absolute;
+            top: 130px;
+            left: 80px;
+        }
+        .welcome-rectangle .welcome {
+            font-size: 32px;
+            font-weight: 600; /* Semi-bold */
+            font-family: 'Poppins', sans-serif;
+            position: absolute;
+            left: 100px;
+        }
+        .welcome-rectangle .update {
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 50;
+            position: absolute;
+            color: rgba(255, 255, 255, 0.75); /* White color with 75% opacity */
+            left: 100px;
+            top: 240px;
+
+        }
+        .welcome-rectangle .student-icon {
+            position: relative;
+            top: 250px;
+            left: 370px; /* Adjust left positioning */
+            transform: translateY(-50%) scale(0.5); /* Adjust scale for smaller size */
+        }
+
+        .sidebar hr {
+            width: 100%;
+            margin: 20px 0;
+            height: 1px; /* Adjust height to make it thinner */
+            background-color: white;
+            opacity: 0.5; /* Adjust opacity to make it less bold */
+            border: none; /* Remove border */
+        }
+        .sidebar p {
+            color: white;
+            font-size: 10px;
+            margin-left: -270px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="title">
+            <img src="/static/img/book.svg" alt="Book Icon" width="30" height="30">
+            <h1>SICHUAN UNIVERSITY</h1>
+        </div>
+        <hr> <!-- Horizontal line -->
+        <a href="#" class="button">
+            <img src="/static/img/dash.svg" alt="Dash Icon" width="20" height="20">
+            Dashboard
+        </a>
+        <hr>
+        <p>ACADEMIC</p>
+        <a href="/courses" class="button">
+            <img src="/static/img/menu.svg" alt="Dash Icon" width="20" height="20">
+            Courses
+        </a>
+        <a href="/accommodations" class="button">
+            <img src="/static/img/location.svg" alt="Dash Icon" width="20" height="20">
+            Accommodation
+        </a>
+        <a href="/books" class="button">
+            <img src="/static/img/books.svg" alt="Dash Icon" width="20" height="20">
+            Books
+        </a>
+        <a href="/profile" class="button">
+            <img src="/static/img/profile.svg" alt="Dash Icon" width="20" height="20">
+            Profile
+        </a>
+        <a href="/analysis" class="button">
+            <img src="/static/img/analysis.png" alt="Dash Icon" width="20" height="20">
+            Data Analysis
+        </a>
+        <hr>
+        <p>SETTINGS</p>
+        <a href="#" class="button">
+            <img src="/static/img/SET.svg" alt="Dash Icon" width="20" height="20">
+            Settings
+        </a>
+    </div>
+    <div class="content">
+    <div class="container">
+        <h2>Student Records</h2>
+
+        <!-- Student Cards Section -->
+        <div id="student-cards">
+            <!-- Cards will be dynamically added here -->
+        </div>
+    </div>
+</div>
+
+    <!-- Include necessary JavaScript libraries -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/students')
+                .then(response => response.json())
+                .then(students => {
+                    const studentCards = document.getElementById('student-cards');
+                    students.forEach(student => {
+                        const card = document.createElement('div');
+                        card.classList.add('student-card');
+                        card.innerHTML = `
+                            <h3>${student.name}</h3>
+                            <p>Age: ${student.age}</p>
+                            <p>Major: ${student.major}</p>
+                            <button class="btn-delete" data-id="${student.id}">Delete</button>
+                        `;
+                        studentCards.appendChild(card);
+                    });
+
+                    document.querySelectorAll('.btn-delete').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const studentId = this.getAttribute('data-id');
+                            fetch('/api/delete_student/' + studentId, {
+                                method: 'DELETE'
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.status === 'success') {
+                                    this.parentElement.remove();
+                                } else {
+                                    alert('Error deleting student');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching students:', error));
+        });
+    </script>
+</body>
+</html>

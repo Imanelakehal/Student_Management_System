@@ -7,12 +7,20 @@ import logging
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
+
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 bcrypt = Bcrypt(app)
+
+def calculate_age(date_of_birth):
+    # Convert date_of_birth to datetime object if needed
+    dob = datetime.strptime(date_of_birth, '%Y-%m-%d')  # Example format; adjust as per your date format
+    today = datetime.today()
+    age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    return age
 
 def get_db_connection():
     conn = sqlite3.connect('student_info_system.db')
@@ -161,26 +169,34 @@ def get_accommodation(accommodation_id):
 @app.route('/update_accommodation', methods=['POST'])
 def update_accommodation():
     data = request.json
+    logging.debug(f"Received data for update: {data}")
     accommodation_id = data.get('accommodation_id')
-    room_number = data.get('room_number')
+    room_number = data.get('roomNo')
     location = data.get('location')
-    type = data.get('type')
+    type_ = data.get('type')  # rename variable to avoid conflict with Python keyword
     floor = data.get('floor')
 
+    if not all([accommodation_id, room_number, location, type_, floor]):
+        logging.error("Missing data in the update request")
+        return jsonify(status='error', message='Missing data'), 400
+
+    conn = None
     try:
         conn = get_db_connection()
         conn.execute('''
             UPDATE accommodations
             SET roomNo = ?, location = ?, type = ?, floor = ?
             WHERE id = ?
-        ''', (room_number, location, type, floor, accommodation_id))
+        ''', (room_number, location, type_, floor, accommodation_id))
         conn.commit()
+        logging.debug("Accommodation updated successfully")
     except sqlite3.Error as e:
+        logging.error(f"SQLite error: {e}")
         return jsonify(status='error', message=str(e))
     finally:
-        conn.close()
+        if conn:
+            conn.close()
     return jsonify(status='success')
-
 @app.route('/cancel_accommodation', methods=['POST'])
 def cancel_accommodation():
     data = request.json
@@ -319,5 +335,28 @@ def update_profile():
 
     return redirect(url_for('profile'))
 
+# Mock student data
+students = [
+    {"name": "John Doe", "age": 22, "major": "IT"},
+    {"name": "Jane Smith", "age": 21, "major": "Literature"},
+    {"name": "Michael Brown", "age": 23, "major": "English"},
+    {"name": "Emily Davis", "age": 20, "major": "Art"},
+    # Add more students as needed
+]
+@app.route('/analysis')
+def analysis():
+    return render_template('analysis.html')
+
+@app.route('/api/students')
+def get_students():
+    return jsonify(students)
+
+@app.route('/api/delete_student/<int:student_id>', methods=['DELETE'])
+def delete_student(student_id):
+    global students
+    students = [student for student in students if student['id'] != student_id]
+    return jsonify({"status": "success"})
+
 if __name__ == '__main__':
+    print("Starting Flask app, navigate to http://127.0.0.1:5000/")
     app.run(debug=True)
