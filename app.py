@@ -4,6 +4,8 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 from config import Config
 import logging
+import pandas as pd
+
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
@@ -339,6 +341,7 @@ def update_profile():
 def analysis():
     return render_template('analysis.html')
 
+
 @app.route('/api/students', methods=['GET'])
 def get_students():
     try:
@@ -354,12 +357,13 @@ def get_students():
                 "id": student['id'],
                 "name": student['name'],
                 "age": student['age'],
-                "major": student['major']
+                "major": student['major'],
+                "gender": student['gender'],
+                "region": student['region']
             }
             student_list.append(student_dict)
 
         return jsonify(student_list)
-
     except sqlite3.Error as e:
         return jsonify({"error": str(e)}), 500
 
@@ -370,16 +374,17 @@ def add_student():
         name = data['name']
         age = data['age']
         major = data['major']
+        gender = data['gender']
+        region = data['region']
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO students (name, age, major) VALUES (?, ?, ?)', (name, age, major))
+        cursor.execute('INSERT INTO students (name, age, major, gender, region) VALUES (?, ?, ?, ?, ?)', (name, age, major, gender, region))
         new_student_id = cursor.lastrowid
         conn.commit()
         conn.close()
 
         return jsonify({"status": "success", "id": new_student_id})
-
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -388,16 +393,52 @@ def delete_student(student_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-
         cursor.execute('DELETE FROM students WHERE id = ?', (student_id,))
         conn.commit()
         conn.close()
 
         return jsonify({"status": "success"})
-
     except sqlite3.Error as e:
         return jsonify({"error": str(e)}), 500
-    
+
+@app.route('/api/analysis', methods=['GET'])
+def analyze_data():
+    try:
+        conn = get_db_connection()
+        students_df = pd.read_sql_query("SELECT * FROM students", conn)
+        scores_df = pd.read_sql_query("SELECT * FROM test_scores", conn)
+        conn.close()
+
+        merged_df = pd.merge(students_df, scores_df, left_on='id', right_on='student_id', how='left')
+
+        # Calculate gender ratio for each major
+        gender_ratio = students_df.groupby('major')['gender'].value_counts(normalize=True).unstack().fillna(0)
+        gender_ratio['total'] = students_df.groupby('major')['gender'].count()
+
+        # Analyze the comparison of results in different majors
+        major_scores = merged_df.groupby('major')['score'].mean().reset_index()
+
+        # Analyze the relationship between student age and test scores
+        age_scores = merged_df.groupby('age')['score'].mean().reset_index()
+
+        # Analyze the relationship between students' regional distribution and test scores
+        region_scores = merged_df.groupby('region')['score'].mean().reset_index()
+
+        # Additional analysis: Analyze the relationship between gender and test scores
+        gender_scores = merged_df.groupby('gender')['score'].mean().reset_index()
+
+        analysis_result = {
+            "gender_ratio": gender_ratio.to_dict(),
+            "major_scores": major_scores.to_dict(orient='records'),
+            "age_scores": age_scores.to_dict(orient='records'),
+            "region_scores": region_scores.to_dict(orient='records'),
+            "gender_scores": gender_scores.to_dict(orient='records')
+        }
+
+        return jsonify(analysis_result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     print("Starting Flask app, navigate to http://127.0.0.1:5000/")
     app.run(debug=True)
