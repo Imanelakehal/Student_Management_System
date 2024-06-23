@@ -6,14 +6,28 @@ def initialize_database():
         conn = sqlite3.connect('student_info_system.db')
         cursor = conn.cursor()
 
-        # Drop tables if they exist to avoid schema conflicts
-        
+        # Drop existing tables if needed for clean slate (optional)
+        print("Dropping existing tables if they exist...")
+        cursor.execute('DROP TABLE IF EXISTS students')
+        cursor.execute('DROP TABLE IF EXISTS users')
         cursor.execute('DROP TABLE IF EXISTS courses')
+        cursor.execute('DROP TABLE IF EXISTS enrollments')
         cursor.execute('DROP TABLE IF EXISTS accommodations')
         cursor.execute('DROP TABLE IF EXISTS books')
-        
+
+        # Create the students table if it doesn't exist
+        print("Creating students table...")
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS students (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                age INTEGER NOT NULL,
+                major TEXT NOT NULL
+            )
+        ''')
 
         # Create the users table if it doesn't exist
+        print("Creating users table...")
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +45,7 @@ def initialize_database():
         ''')
 
         # Create the courses table with additional columns
+        print("Creating courses table...")
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS courses (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,6 +58,7 @@ def initialize_database():
         ''')
 
         # Create the enrollments table if it doesn't exist
+        print("Creating enrollments table...")
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS enrollments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,6 +71,7 @@ def initialize_database():
         ''')
 
         # Create the accommodations table
+        print("Creating accommodations table...")
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS accommodations (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,6 +84,7 @@ def initialize_database():
         ''')
 
         # Create the books table
+        print("Creating books table...")
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS books (
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,6 +96,7 @@ def initialize_database():
         ''')
 
         # Insert predefined courses into the courses table
+        print("Inserting predefined courses...")
         predefined_courses = [
             ('MATH101', 'Math 101', 'Dr. John Doe', 3, 'active'),
             ('PHYS101', 'Physics 101', 'Dr. Jane Smith', 4, 'active'),
@@ -91,6 +110,7 @@ def initialize_database():
         cursor.executemany("INSERT INTO courses (course_code, course_name, instructor, credits, status) VALUES (?, ?, ?, ?, ?)", predefined_courses)
 
         # Insert predefined accommodations into the accommodations table
+        print("Inserting predefined accommodations...")
         predefined_accommodations = [
             ('C101', 'North Wing', 'Single', 1, 'Book'),
             ('B102', 'Jiangan Campus', 'Double', 1, 'Reserved'),
@@ -103,9 +123,10 @@ def initialize_database():
         ]
 
         cursor.executemany("INSERT INTO accommodations (roomNo, location, type, floor, status) VALUES (?, ?, ?, ?, ?)", predefined_accommodations)
-        
+
         # Insert predefined books into the books table
-        predefined_books= [
+        print("Inserting predefined books...")
+        predefined_books = [
             ('C408','Computer Networks 9th Edition', 'Computer Networks','Book'),
             ('B407','Probability and statistics 7th Edition', 'Mathematics','Not Available'),
             ('C404','Computer Architecture 9th Edition', 'Computer Architecture','Book'),
@@ -117,6 +138,21 @@ def initialize_database():
         ]
 
         cursor.executemany('INSERT INTO books (bookId, title, course, status) VALUES(?,?,?,?)', predefined_books)
+
+        # Insert predefined students into the students table
+        print("Inserting predefined students...")
+        predefined_students = [
+            ('John Doe', 22, 'IT'),
+            ('Jane Smith', 21, 'Literature'),
+            ('Michael Brown', 23, 'English'),
+            ('Emily Davis', 20, 'Art'),
+            ('Chris Johnson', 24, 'Biology'),
+            ('Jessica Taylor', 22, 'Physics'),
+            ('Daniel Martinez', 21, 'Chemistry')
+        ]
+
+        cursor.executemany("INSERT INTO students (name, age, major) VALUES (?, ?, ?)", predefined_students)
+
         # Commit the changes and close the connection
         conn.commit()
         conn.close()

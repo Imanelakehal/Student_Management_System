@@ -335,28 +335,69 @@ def update_profile():
 
     return redirect(url_for('profile'))
 
-# Mock student data
-students = [
-    {"name": "John Doe", "age": 22, "major": "IT"},
-    {"name": "Jane Smith", "age": 21, "major": "Literature"},
-    {"name": "Michael Brown", "age": 23, "major": "English"},
-    {"name": "Emily Davis", "age": 20, "major": "Art"},
-    # Add more students as needed
-]
 @app.route('/analysis')
 def analysis():
     return render_template('analysis.html')
 
-@app.route('/api/students')
+@app.route('/api/students', methods=['GET'])
 def get_students():
-    return jsonify(students)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM students')
+        students = cursor.fetchall()
+        conn.close()
+
+        student_list = []
+        for student in students:
+            student_dict = {
+                "id": student['id'],
+                "name": student['name'],
+                "age": student['age'],
+                "major": student['major']
+            }
+            student_list.append(student_dict)
+
+        return jsonify(student_list)
+
+    except sqlite3.Error as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/add_student', methods=['POST'])
+def add_student():
+    try:
+        data = request.json
+        name = data['name']
+        age = data['age']
+        major = data['major']
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO students (name, age, major) VALUES (?, ?, ?)', (name, age, major))
+        new_student_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+
+        return jsonify({"status": "success", "id": new_student_id})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/delete_student/<int:student_id>', methods=['DELETE'])
 def delete_student(student_id):
-    global students
-    students = [student for student in students if student['id'] != student_id]
-    return jsonify({"status": "success"})
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
+        cursor.execute('DELETE FROM students WHERE id = ?', (student_id,))
+        conn.commit()
+        conn.close()
+
+        return jsonify({"status": "success"})
+
+    except sqlite3.Error as e:
+        return jsonify({"error": str(e)}), 500
+    
 if __name__ == '__main__':
     print("Starting Flask app, navigate to http://127.0.0.1:5000/")
     app.run(debug=True)

@@ -182,3 +182,40 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
 
 
 /*Analysis page */
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/api/students')
+        .then(response => response.json())
+        .then(students => {
+            const studentCards = document.getElementById('student-cards');
+            students.forEach(student => {
+                const card = document.createElement('div');
+                card.classList.add('student-card');
+                card.innerHTML = `
+                    <h3>${student.name}</h3>
+                    <p>Age: ${student.age}</p>
+                    <p>Major: ${student.major}</p>
+                    <button class="btn-delete" data-id="${student.id}">Delete</button>
+                `;
+                studentCards.appendChild(card);
+            });
+
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', function () {
+                    const studentId = this.getAttribute('data-id');
+                    fetch('/api/delete_student/' + studentId, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.status === 'success') {
+                            this.parentElement.remove();
+                        } else {
+                            alert('Error deleting student');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+        })
+        .catch(error => console.error('Error fetching students:', error));
+});
