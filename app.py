@@ -19,7 +19,7 @@ bcrypt = Bcrypt(app)
 
 def calculate_age(date_of_birth):
     # Convert date_of_birth to datetime object if needed
-    dob = datetime.strptime(date_of_birth, '%Y-%m-%d')  # Example format; adjust as per your date format
+    dob = datetime.strptime(date_of_birth, '%Y-%m-%d') 
     today = datetime.today()
     age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     return age
@@ -74,7 +74,8 @@ def register():
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
-        # Add your registration logic here
+
+        
         if password == confirm_password:
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             conn = get_db_connection()
